@@ -2,14 +2,14 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>标签: spring-boot - 白风和</title>
+<title>标签: yaml - 白风和</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="白风和">
-<meta property="og:url" content="https://baifenghe.github.io/tags/spring-boot/index.html">
+<meta property="og:url" content="https://baifenghe.github.io/tags/yaml/index.html">
 <meta property="og:site_name" content="白风和">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
@@ -95,7 +95,7 @@
                 
                 <a class="navbar-item" href="/tags/docker">Docker</a>
                 
-                <a class="navbar-item is-active" href="/tags/spring-boot">SpringBoot</a>
+                <a class="navbar-item" href="/tags/spring-boot">SpringBoot</a>
                 
                 <a class="navbar-item" href="/archives">归档</a>
                 
@@ -124,7 +124,7 @@
         <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">spring-boot</a></li>
+            <li class="is-active"><a href="#" aria-current="page">yaml</a></li>
         </ul>
         </nav>
     </div>
@@ -175,115 +175,6 @@
             <div class="level-start">
                 <div class="level-item">
                 <a class="button is-size-7 is-light" href="/2019/02/15/build-spring-boot-starter-02/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/01/08/build-spring-boot-starter-01/" class="image is-7by1">
-            <img class="thumbnail" src="/images/flower.jpg" alt="构建Spring Boot Starter(一)">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-01-08T13:24:20.000Z">2019-01-08</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spring-boot/">spring-boot</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 分钟 读完 (大约 1141 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/01/08/build-spring-boot-starter-01/">构建Spring Boot Starter(一)</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="Spring-Boot-Starter初印象"><a href="#Spring-Boot-Starter初印象" class="headerlink" title="Spring Boot Starter初印象"></a>Spring Boot Starter初印象</h2><p>初识Spring Boot 时，被其简化Spring应用初始搭建以及开发过程所惊艳到，基于约定优于配置的原则，我们无需从老项目中拷贝大量的xml文件来构建项目，只需利用IDEA提供的<code>Spring Initializr</code> 或者通过 <a href="https://start.spring.io/" target="_blank" rel="noopener">https://start.spring.io/</a> 就能轻松启动一个Spring应用，极为便捷。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/01/08/build-spring-boot-starter-01/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-09-26T12:16:08.000Z">2018-09-26</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/docker/">docker</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 分钟 读完 (大约 907 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/09/26/docker-in-action-02/">Docker(二)：部署springboot项目</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="Dockerfile概述"><a href="#Dockerfile概述" class="headerlink" title="Dockerfile概述"></a>Dockerfile概述</h2><p>Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。</p>
-<p>镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的无法重复的问题、镜像构建透明性的问题、体积的问题就都会解决。这个脚本就是 Dockerfile。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/09/26/docker-in-action-02/#more">阅读更多</a>
                 </div>
             </div>
         </div>
