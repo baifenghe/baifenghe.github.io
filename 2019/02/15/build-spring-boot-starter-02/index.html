@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="白风和">
 <meta property="og:description" content="注：案例工程使用的spring boot 版本为  2.1.2.RELEASE，Java 版本为  1.8  熟悉spring boot的人肯定对 application.yml 或者 application.properties 配置文件很眼熟（因为个人喜好yaml方式，所以以下示例选用application.yml），因为spring boot 有着约定大于配置的特性，所以当其默认的配置不">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-15T13:34:56.742Z">
+<meta property="og:updated_time" content="2019-02-24T12:31:50.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="构建Spring Boot Starter(二)">
 <meta name="twitter:description" content="注：案例工程使用的spring boot 版本为  2.1.2.RELEASE，Java 版本为  1.8  熟悉spring boot的人肯定对 application.yml 或者 application.properties 配置文件很眼熟（因为个人喜好yaml方式，所以以下示例选用application.yml），因为spring boot 有着约定大于配置的特性，所以当其默认的配置不">
@@ -150,7 +150,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 956 个字)
+                    7 分钟 读完 (大约 989 个字)
                 </span>
                 
             </div>
@@ -197,6 +197,7 @@
 <p>获取配置信息的方式如下：</p>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Autowired</span></span><br><span class="line"><span class="hljs-keyword">private</span> CommonProperties commonProperties;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"getCommonList"</span>)</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> Set&lt;String&gt; <span class="hljs-title">getCommonList</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> commonProperties.getList();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"getCommonName"</span>)</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getCommonName</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> commonProperties.getName();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>相关案例代码移步 <a href="https://github.com/baifenghe/blog-samples/tree/master/build-spring-boot/build-spring-boot-test" target="_blank" rel="noopener">blog-samples</a> 。</p>
+<p>欢迎 watch star fork <a href="https://github.com/baifenghe/toolkit-spring-boot-project" target="_blank" rel="noopener">toolkit-spring-boot-project</a> ，一个好用的，开箱即用的工具集。</p>
 
         </div>
         
