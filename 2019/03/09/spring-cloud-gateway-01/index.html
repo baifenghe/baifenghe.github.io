@@ -16,7 +16,7 @@
 <meta property="og:description" content="前言随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 spinrg-cloud-in-action 进行相应的调整，计划使用 Spring Cloud Gateway 替代 Zuul，使用 Resilience4j 替换目前使用的 Hystrix ，这篇博客记录下整合 Spring Cloud Gateway 的一些过程。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://baifenghe.github.io/images/blog/2019/spring-cloud-gateway-0101.png">
-<meta property="og:updated_time" content="2019-03-09T13:04:00.505Z">
+<meta property="og:updated_time" content="2019-03-09T13:10:47.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Spring Cloud Gateway替换Zuul">
 <meta name="twitter:description" content="前言随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 spinrg-cloud-in-action 进行相应的调整，计划使用 Spring Cloud Gateway 替代 Zuul，使用 Resilience4j 替换目前使用的 Hystrix ，这篇博客记录下整合 Spring Cloud Gateway 的一些过程。">
@@ -147,14 +147,14 @@
                 <time class="level-item has-text-grey" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/spring-cloud/spring-cloud-alibaba/">spring-cloud-alibaba</a>
+                <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 960 个字)
+                    7 分钟 读完 (大约 980 个字)
                 </span>
                 
             </div>
@@ -185,7 +185,7 @@
 <p><code>@FeignClient(name = &quot;provider&quot;)</code> 指定我们调用哪个微服务模块，通过 <code>@PostMapping(&quot;/hello&quot;)</code> 等来绑定调用的哪个接口。这样我们就可以在我们的 <code>ConsumerHelloController</code>里面注入该 <code>HelloControllerRemote</code> ,如下：</p>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@RestController</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerHelloController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Autowired</span></span><br><span class="line">    <span class="hljs-keyword">private</span> HelloControllerRemote helloControllerRemote;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"hello接口"</span>)</span><br><span class="line">    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/hello"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">(@ApiParam(<span class="hljs-string">"用户名"</span>)</span> String userName) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">return</span> helloControllerRemote.hello(userName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>验证</strong></p>
-<p><code>curl -X PUT http://localhost:9999/CONSUMER/hello</code></p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X PUT http://localhost:9999/CONSUMER/hello</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>注：我目前使用的是 <code>spring-cloud-gateway-2.1.0.RELEASE</code> ，使用<code>feign</code>调用<code>consumer</code>模块的接口，无法通过<code>/consumer/hello</code> 远程访问，而是调用 <code>/CONSUMER/hello</code>  ，模块名需要大写。</p>
 </blockquote>
@@ -195,6 +195,7 @@
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Primary</span></span><br><span class="line"><span class="hljs-meta">@Component</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerProvider</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">SwaggerResourcesProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;spring.application.name&#125;"</span>)</span><br><span class="line">    <span class="hljs-keyword">public</span> String applicationName;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RouteLocator routeLocator;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SwaggerProvider</span><span class="hljs-params">(RouteLocator routeLocator)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.routeLocator = routeLocator;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;SwaggerResource&gt; <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        List&lt;SwaggerResource&gt; resources = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        routeLocator.getRoutes().subscribe(route -&gt; &#123;</span><br><span class="line">            String routeUri = route.getUri().getHost();</span><br><span class="line">            <span class="hljs-keyword">if</span> (!applicationName.equalsIgnoreCase(routeUri)) &#123;</span><br><span class="line">                resources.add(swaggerResource(routeUri, String.format(<span class="hljs-string">"/%s/v2/api-docs"</span>, routeUri)));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="hljs-keyword">return</span> resources;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> SwaggerResource <span class="hljs-title">swaggerResource</span><span class="hljs-params">(String name, String location)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        SwaggerResource swaggerResource = <span class="hljs-keyword">new</span> SwaggerResource();</span><br><span class="line">        swaggerResource.setSwaggerVersion(<span class="hljs-string">"2.0"</span>);</span><br><span class="line">        swaggerResource.setName(name);</span><br><span class="line">        swaggerResource.setLocation(location);</span><br><span class="line">        <span class="hljs-keyword">return</span> swaggerResource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后我们启动注册中心，网关，<code>provider</code>，<code>consumer</code> 4个模块，访问 <code>http://localhost:9999/swagger-ui.html#/</code>  ，便能看到文档聚合后的效果。</p>
 <p><img src="/images/blog/2019/spring-cloud-gateway-0101.png" alt="swagger"></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>详细代码见 <a href="https://github.com/byference/spring-cloud-in-action" target="_blank" rel="noopener">spring-cloud-in-action</a> </p>
 
         </div>
         
@@ -286,7 +287,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        6
+                        5
                     </p>
                 </div>
             </div>
@@ -361,6 +362,10 @@
         <a class="is-flex" href="#整合swagger">
         <span class="has-mr-6">4</span>
         <span>整合swagger</span>
+        </a></li><li>
+        <a class="is-flex" href="#源码">
+        <span class="has-mr-6">5</span>
+        <span>源码</span>
         </a></li></ul>
         </div>
     </div>
@@ -411,15 +416,7 @@
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/spring-cloud/spring-cloud-alibaba/">
-            <span class="level-start">
-                <span class="level-item">spring-cloud-alibaba</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/源码/">
             <span class="level-start">
                 <span class="level-item">源码</span>
@@ -467,7 +464,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time></div>
                     <a href="/2019/03/09/spring-cloud-gateway-01/" class="has-link-black-ter is-size-6">使用Spring Cloud Gateway替换Zuul</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a> / <a class="has-link-grey -link" href="/categories/spring-cloud/spring-cloud-alibaba/">spring-cloud-alibaba</a>
+                        <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a>
                     </p>
                 </div>
             </div>
@@ -830,7 +827,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time></div>
                     <a href="/2019/03/09/spring-cloud-gateway-01/" class="has-link-black-ter is-size-6">使用Spring Cloud Gateway替换Zuul</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a> / <a class="has-link-grey -link" href="/categories/spring-cloud/spring-cloud-alibaba/">spring-cloud-alibaba</a>
+                        <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a>
                     </p>
                 </div>
             </div>
