@@ -2,23 +2,18 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>Docker(二)：部署springboot项目 - 白风和</title>
+<title>分类: spring-cloud-alibaba - 白风和</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Dockerfile概述Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。 镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的">
-<meta name="keywords" content="spring-boot,docker">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Docker(二)：部署springboot项目">
-<meta property="og:url" content="https://baifenghe.github.io/2018/09/26/docker-in-action-02/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="白风和">
+<meta property="og:url" content="https://baifenghe.github.io/categories/spring-cloud/spring-cloud-alibaba/index.html">
 <meta property="og:site_name" content="白风和">
-<meta property="og:description" content="Dockerfile概述Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。 镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-09T13:44:25.457Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker(二)：部署springboot项目">
-<meta name="twitter:description" content="Dockerfile概述Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。 镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的">
+<meta name="twitter:title" content="白风和">
 
 
 
@@ -88,7 +83,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/favicon.png" alt="Docker(二)：部署springboot项目" height="28">
+                <img src="/images/favicon.png" alt="白风和" height="28">
             
             </a>
         </div>
@@ -113,10 +108,6 @@
             <div class="navbar-end">
                 
                 
-                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
-                    <i class="fas fa-list-ul"></i>
-                </a>
-                
                 
                 <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
@@ -131,22 +122,42 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    <div class="card-content">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/categories">分类</a></li>
+            
+            <li><a href="/categories/spring-cloud/">spring-cloud</a></li>
+            
+            <li class="is-active"><a href="#" aria-current="page">spring-cloud-alibaba</a></li>
+        </ul>
+        </nav>
+    </div>
+</div>
+
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/2019/03/09/spring-cloud-gateway-01/" class="image is-7by1">
+            <img class="thumbnail" src="/images/panda.jpg" alt="使用Spring Cloud Gateway替换Zuul">
+        </a>
+    </div>
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-09-26T12:16:08.000Z">2018-09-26</time>
+                <time class="level-item has-text-grey" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/docker/">docker</a>
+                <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/spring-cloud/spring-cloud-alibaba/">spring-cloud-alibaba</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 907 个字)
+                    6 分钟 读完 (大约 960 个字)
                 </span>
                 
             </div>
@@ -154,61 +165,23 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Docker(二)：部署springboot项目
+                <a class="has-link-black-ter" href="/2019/03/09/spring-cloud-gateway-01/">使用Spring Cloud Gateway替换Zuul</a>
             
         </h1>
         <div class="content">
-            <h2 id="Dockerfile概述"><a href="#Dockerfile概述" class="headerlink" title="Dockerfile概述"></a>Dockerfile概述</h2><p>Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。</p>
-<p>镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的无法重复的问题、镜像构建透明性的问题、体积的问题就都会解决。这个脚本就是 Dockerfile。</p>
-<a id="more"></a>
-<p>Docker可以通过读取来自 <code>Dockerfile</code>的指令自动构建镜像。 <code>Dockerfile</code>是一个文本文档，其中包含用户可以在命令行上调用、组合容器的所有命令。使用<code>docker build</code> 可以构建连续执行的多个指令集。</p>
-<p>接下来用一个简单的示例来感受一下 Dockerfile 是如何用来构建镜像启动容器。我们以docker部署springboot项目为例。</p>
-<h2 id="准备springboot项目"><a href="#准备springboot项目" class="headerlink" title="准备springboot项目"></a>准备springboot项目</h2><p>首先我们通过<code>spring initializr</code>来构建一个springboot工程，只添加了一个<code>HelloController</code>，代码如下：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@RestController</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloDockerController</span> </span>&#123;</span><br><span class="line">    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/hello"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-string">"hello, "</span> + LocalDateTime.now();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以使用docker构建插件来构建镜像，可以查考纯洁的微笑的<a href="http://www.ityouknow.com/springboot/2018/03/19/spring-boot-docker.html" target="_blank" rel="noopener">博客</a>来构建，这里我们直接将springboot工程打成jar包，来构建docker镜像。</p>
-<p>首先将之前构建的springboot工程打包，这样我们就得到了一个<code>hello-docker-0.0.1-SNAPSHOT.jar</code>,然后我们再准备一个Dockerfile，内容如下</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM java:8</span><br><span class="line">VOLUME /tmp</span><br><span class="line">ADD hello-docker-0.0.1-SNAPSHOT.jar hello-docker.jar</span><br><span class="line">ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;/hello-docker.jar&quot;]</span><br></pre></td></tr></table></figure>
-<p><strong>其中</strong></p>
-<ul>
-<li>FROM ，表示使用 Jdk8 环境 为基础镜像，如果镜像不是本地的会从 DockerHub 进行下载</li>
-<li>VOLUME ，VOLUME 指向了一个<code>/tmp</code>的目录，由于 Spring Boot 使用内置的Tomcat容器，Tomcat 默认使用<code>/tmp</code>作为工作目录。这个命令的效果是：在宿主机的<code>/var/lib/docker</code>目录下创建一个临时文件并把它链接到容器中的<code>/tmp</code>目录</li>
-<li>ADD ，拷贝文件并且重命名</li>
-<li>ENTRYPOINT ，为了缩短 Tomcat 的启动时间，添加<code>java.security.egd</code>的系统属性指向<code>/dev/urandom</code>作为 ENTRYPOINT</li>
-</ul>
-<p><strong>构建镜像</strong></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t image-name .</span><br></pre></td></tr></table></figure>
-<p>然后我们通过<code>docker images</code>就能看见我们制作的docker镜像</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">hello-docker        latest              417dca81c225        8 minutes ago       672 MB</span><br><span class="line">docker.io/mysql     5.7                 563a026a1511        2 weeks ago         372 MB</span><br><span class="line">docker.io/nginx     latest              c82521676580        2 months ago        109 MB</span><br><span class="line">docker.io/java      8                   d23bdf5b1b1b        20 months ago       643 MB</span><br></pre></td></tr></table></figure>
-<p>这样我们可以启动该镜像</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 -t hello-docker</span><br></pre></td></tr></table></figure>
-<p>如果出现了端口映射错误，可以暂时关闭防火墙<code>systemctl stop firewalld.service</code>，然后重启docker服务<code>service docker restart</code>，重新启动镜像即可。</p>
-<p>通过<code>docker ps</code>可以查看正在运行的项目</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES</span><br><span class="line">caa44939f959        hello-docker        &quot;java -Djava.secur...&quot;   14 seconds ago      Up 13 seconds       0.0.0.0:8080-&gt;8080/tcp              trusting_brattain</span><br><span class="line">f80f9ed36b71        mysql:5.7           &quot;docker-entrypoint...&quot;   7 days ago          Up 2 hours          0.0.0.0:3306-&gt;3306/tcp, 33060/tcp   mysql-dev</span><br></pre></td></tr></table></figure>
-<p>然后通过访问<code>http://your-ip:8080/hello</code>，返回</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hello, 2018-09-25T13:38:53.246</span><br></pre></td></tr></table></figure>
-<p>即部署成功。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://docs.docker.com/engine/reference/builder/#usage" target="_blank" rel="noopener">docker docs</a></li>
-<li><a href="http://www.ityouknow.com/docker/2018/03/12/docker-use-dockerfile.html" target="_blank" rel="noopener">Docker(二)：Dockerfile 使用介绍</a></li>
-</ul>
-
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 <a href="">spinrg-cloud-in-action</a> 进行相应的调整，计划使用 <code>Spring Cloud Gateway</code> 替代 <code>Zuul</code>，使用 <code>Resilience4j</code> 替换目前使用的 <code>Hystrix</code> ，这篇博客记录下整合 <code>Spring Cloud Gateway</code> 的一些过程。</p>
         </div>
         
-        <div class="level is-size-7 is-uppercase">
+        
+        <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/docker/">docker</a>, <a class="has-link-grey -link" href="/tags/spring-boot/">spring-boot</a>
+                <a class="button is-size-7 is-light" href="/2019/03/09/spring-cloud-gateway-01/#more">阅读更多</a>
                 </div>
             </div>
         </div>
         
         
-        
-        <div class="social-share"></div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
-<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
-        
     </div>
 </div>
 
@@ -216,26 +189,7 @@
 
 
 
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/10/01/docker-in-action-03/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Docker(三)：使用docker启动mysql &amp; redis</span>
-            </a>
-        </div>
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2018/09/02/docker-in-action-01/">
-                <span class="level-item">Docker(一)：hello-docker</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
+
 
 
 </div>
@@ -342,29 +296,6 @@
 </div>
     
         
-<div class="card widget" id="toc">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                目录
-            </h3>
-            <ul class="menu-list"><li>
-        <a class="is-flex" href="#Dockerfile概述">
-        <span class="has-mr-6">1</span>
-        <span>Dockerfile概述</span>
-        </a></li><li>
-        <a class="is-flex" href="#准备springboot项目">
-        <span class="has-mr-6">2</span>
-        <span>准备springboot项目</span>
-        </a></li><li>
-        <a class="is-flex" href="#参考">
-        <span class="has-mr-6">3</span>
-        <span>参考</span>
-        </a></li></ul>
-        </div>
-    </div>
-</div>
-
     
         
 
@@ -1173,7 +1104,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/favicon.png" alt="Docker(二)：部署springboot项目" height="28">
+                    <img src="/images/favicon.png" alt="白风和" height="28">
                 
                 </a>
                 <p class="is-size-7">

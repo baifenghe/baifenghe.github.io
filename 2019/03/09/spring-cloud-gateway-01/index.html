@@ -2,23 +2,25 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>Docker(二)：部署springboot项目 - 白风和</title>
+<title>使用Spring Cloud Gateway替换Zuul - 白风和</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Dockerfile概述Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。 镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的">
-<meta name="keywords" content="spring-boot,docker">
+    <meta name="description" content="前言随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 spinrg-cloud-in-action 进行相应的调整，计划使用 Spring Cloud Gateway 替代 Zuul，使用 Resilience4j 替换目前使用的 Hystrix ，这篇博客记录下整合 Spring Cloud Gateway 的一些过程。">
+<meta name="keywords" content="spring-cloud-gateway">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker(二)：部署springboot项目">
-<meta property="og:url" content="https://baifenghe.github.io/2018/09/26/docker-in-action-02/index.html">
+<meta property="og:title" content="使用Spring Cloud Gateway替换Zuul">
+<meta property="og:url" content="https://baifenghe.github.io/2019/03/09/spring-cloud-gateway-01/index.html">
 <meta property="og:site_name" content="白风和">
-<meta property="og:description" content="Dockerfile概述Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。 镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的">
+<meta property="og:description" content="前言随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 spinrg-cloud-in-action 进行相应的调整，计划使用 Spring Cloud Gateway 替代 Zuul，使用 Resilience4j 替换目前使用的 Hystrix ，这篇博客记录下整合 Spring Cloud Gateway 的一些过程。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-09T13:44:25.457Z">
+<meta property="og:image" content="https://baifenghe.github.io/images/blog/2019/spring-cloud-gateway-0101.png">
+<meta property="og:updated_time" content="2019-03-09T13:04:00.505Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker(二)：部署springboot项目">
-<meta name="twitter:description" content="Dockerfile概述Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。 镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的">
+<meta name="twitter:title" content="使用Spring Cloud Gateway替换Zuul">
+<meta name="twitter:description" content="前言随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 spinrg-cloud-in-action 进行相应的调整，计划使用 Spring Cloud Gateway 替代 Zuul，使用 Resilience4j 替换目前使用的 Hystrix ，这篇博客记录下整合 Spring Cloud Gateway 的一些过程。">
+<meta name="twitter:image" content="https://baifenghe.github.io/images/blog/2019/spring-cloud-gateway-0101.png">
 
 
 
@@ -88,7 +90,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/favicon.png" alt="Docker(二)：部署springboot项目" height="28">
+                <img src="/images/favicon.png" alt="使用Spring Cloud Gateway替换Zuul" height="28">
             
             </a>
         </div>
@@ -132,21 +134,27 @@
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/panda.jpg" alt="使用Spring Cloud Gateway替换Zuul">
+        </span>
+    </div>
+    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-09-26T12:16:08.000Z">2018-09-26</time>
+                <time class="level-item has-text-grey" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/docker/">docker</a>
+                <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/spring-cloud/spring-cloud-alibaba/">spring-cloud-alibaba</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 907 个字)
+                    6 分钟 读完 (大约 960 个字)
                 </span>
                 
             </div>
@@ -154,43 +162,39 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                Docker(二)：部署springboot项目
+                使用Spring Cloud Gateway替换Zuul
             
         </h1>
         <div class="content">
-            <h2 id="Dockerfile概述"><a href="#Dockerfile概述" class="headerlink" title="Dockerfile概述"></a>Dockerfile概述</h2><p>Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。</p>
-<p>镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像，那么之前提及的无法重复的问题、镜像构建透明性的问题、体积的问题就都会解决。这个脚本就是 Dockerfile。</p>
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 <a href="">spinrg-cloud-in-action</a> 进行相应的调整，计划使用 <code>Spring Cloud Gateway</code> 替代 <code>Zuul</code>，使用 <code>Resilience4j</code> 替换目前使用的 <code>Hystrix</code> ，这篇博客记录下整合 <code>Spring Cloud Gateway</code> 的一些过程。</p>
 <a id="more"></a>
-<p>Docker可以通过读取来自 <code>Dockerfile</code>的指令自动构建镜像。 <code>Dockerfile</code>是一个文本文档，其中包含用户可以在命令行上调用、组合容器的所有命令。使用<code>docker build</code> 可以构建连续执行的多个指令集。</p>
-<p>接下来用一个简单的示例来感受一下 Dockerfile 是如何用来构建镜像启动容器。我们以docker部署springboot项目为例。</p>
-<h2 id="准备springboot项目"><a href="#准备springboot项目" class="headerlink" title="准备springboot项目"></a>准备springboot项目</h2><p>首先我们通过<code>spring initializr</code>来构建一个springboot工程，只添加了一个<code>HelloController</code>，代码如下：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@RestController</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloDockerController</span> </span>&#123;</span><br><span class="line">    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/hello"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-string">"hello, "</span> + LocalDateTime.now();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以使用docker构建插件来构建镜像，可以查考纯洁的微笑的<a href="http://www.ityouknow.com/springboot/2018/03/19/spring-boot-docker.html" target="_blank" rel="noopener">博客</a>来构建，这里我们直接将springboot工程打成jar包，来构建docker镜像。</p>
-<p>首先将之前构建的springboot工程打包，这样我们就得到了一个<code>hello-docker-0.0.1-SNAPSHOT.jar</code>,然后我们再准备一个Dockerfile，内容如下</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM java:8</span><br><span class="line">VOLUME /tmp</span><br><span class="line">ADD hello-docker-0.0.1-SNAPSHOT.jar hello-docker.jar</span><br><span class="line">ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;/hello-docker.jar&quot;]</span><br></pre></td></tr></table></figure>
-<p><strong>其中</strong></p>
-<ul>
-<li>FROM ，表示使用 Jdk8 环境 为基础镜像，如果镜像不是本地的会从 DockerHub 进行下载</li>
-<li>VOLUME ，VOLUME 指向了一个<code>/tmp</code>的目录，由于 Spring Boot 使用内置的Tomcat容器，Tomcat 默认使用<code>/tmp</code>作为工作目录。这个命令的效果是：在宿主机的<code>/var/lib/docker</code>目录下创建一个临时文件并把它链接到容器中的<code>/tmp</code>目录</li>
-<li>ADD ，拷贝文件并且重命名</li>
-<li>ENTRYPOINT ，为了缩短 Tomcat 的启动时间，添加<code>java.security.egd</code>的系统属性指向<code>/dev/urandom</code>作为 ENTRYPOINT</li>
-</ul>
-<p><strong>构建镜像</strong></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t image-name .</span><br></pre></td></tr></table></figure>
-<p>然后我们通过<code>docker images</code>就能看见我们制作的docker镜像</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">hello-docker        latest              417dca81c225        8 minutes ago       672 MB</span><br><span class="line">docker.io/mysql     5.7                 563a026a1511        2 weeks ago         372 MB</span><br><span class="line">docker.io/nginx     latest              c82521676580        2 months ago        109 MB</span><br><span class="line">docker.io/java      8                   d23bdf5b1b1b        20 months ago       643 MB</span><br></pre></td></tr></table></figure>
-<p>这样我们可以启动该镜像</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 -t hello-docker</span><br></pre></td></tr></table></figure>
-<p>如果出现了端口映射错误，可以暂时关闭防火墙<code>systemctl stop firewalld.service</code>，然后重启docker服务<code>service docker restart</code>，重新启动镜像即可。</p>
-<p>通过<code>docker ps</code>可以查看正在运行的项目</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES</span><br><span class="line">caa44939f959        hello-docker        &quot;java -Djava.secur...&quot;   14 seconds ago      Up 13 seconds       0.0.0.0:8080-&gt;8080/tcp              trusting_brattain</span><br><span class="line">f80f9ed36b71        mysql:5.7           &quot;docker-entrypoint...&quot;   7 days ago          Up 2 hours          0.0.0.0:3306-&gt;3306/tcp, 33060/tcp   mysql-dev</span><br></pre></td></tr></table></figure>
-<p>然后通过访问<code>http://your-ip:8080/hello</code>，返回</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hello, 2018-09-25T13:38:53.246</span><br></pre></td></tr></table></figure>
-<p>即部署成功。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://docs.docker.com/engine/reference/builder/#usage" target="_blank" rel="noopener">docker docs</a></li>
-<li><a href="http://www.ityouknow.com/docker/2018/03/12/docker-use-dockerfile.html" target="_blank" rel="noopener">Docker(二)：Dockerfile 使用介绍</a></li>
-</ul>
+<h2 id="Spring-Cloud-Gateway"><a href="#Spring-Cloud-Gateway" class="headerlink" title="Spring Cloud Gateway"></a>Spring Cloud Gateway</h2><p><strong>什么是 Spring Cloud Gateway ？</strong></p>
+<p><code>Spring Cloud Gateway</code> 提供了一个建立在<code>Spring Ecosystem</code>之上的API网关，包括：<code>Spring 5</code>，<code>Spring Boot 2</code>和<code>Project Reactor</code>。 <code>Spring Cloud Gateway</code>旨在提供一种简单而有效的方式来路由到API，并为他们提供横切关注点，例如：安全性，监控/指标和弹性。</p>
+<p><strong>为什么要使用 Spring Cloud Gateway ？</strong></p>
+<p>首先 <code>Zuul</code> 是基于<code>servlet</code>构建，使用阻塞API。它不支持任何长连接，如 <code>websockets</code>。</p>
+<p><code>Spring Cloud Gateway</code> 基于<code>Spring Framework 5</code>，<code>Project Reactor</code> 和 <code>Spring Boot 2</code>构建，使用非阻塞API。支持<code>Websockets</code>，而且它与 <code>Spring</code> 紧密集成，因此它能给开发人员带来更好的开发体验。</p>
+<p>接下来讲介绍如何在项目中引入 <code>Spring Cloud Gateway</code>。</p>
+<h2 id="引入Spring-Cloud-Gateway"><a href="#引入Spring-Cloud-Gateway" class="headerlink" title="引入Spring Cloud Gateway"></a>引入Spring Cloud Gateway</h2><p>首先我们在工程中引入相关依赖（以<code>Maven</code>为例）</p>
+<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-gateway<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>不同于<code>Zuul</code>需要在启动类上添加 <code>@EnableZuulProxy</code>，使用<code>spring cloud gateway</code>我们无需通过注解开启网关功能，只需要在网关模块的<code>application.yml</code>中添加如下配置，便可开启通过服务中心自动（根据 serviceId ）创建路由。</p>
+<figure class="highlight yaml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-attr">spring:</span></span><br><span class="line"><span class="hljs-attr">  cloud:</span></span><br><span class="line"><span class="hljs-attr">    gateway:</span></span><br><span class="line"><span class="hljs-attr">      discovery:</span></span><br><span class="line"><span class="hljs-attr">        locator:</span></span><br><span class="line"><span class="hljs-attr">          enabled:</span> <span class="hljs-literal">true</span></span><br></pre></td></tr></table></figure>
+<p>远程调用选用的是 <code>feign</code> ，所以我们需要在 <code>pom</code> 文件中引入 <code>feign</code> 的依赖：</p>
+<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>通过在启动类上添加注解 <code>@EnableFeignClients</code> ，启用<code>feign</code>。关于远程调用这块的使用，和我们使用网关是什么没有关系，还是按照之前的使用方法，如下：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@FeignClient</span>(name = <span class="hljs-string">"provider"</span>)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">HelloControllerRemote</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/hello"</span>)</span><br><span class="line">    <span class="hljs-function">String <span class="hljs-title">hello</span><span class="hljs-params">(@RequestParam(<span class="hljs-string">"userName"</span>)</span> String userName)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>@FeignClient(name = &quot;provider&quot;)</code> 指定我们调用哪个微服务模块，通过 <code>@PostMapping(&quot;/hello&quot;)</code> 等来绑定调用的哪个接口。这样我们就可以在我们的 <code>ConsumerHelloController</code>里面注入该 <code>HelloControllerRemote</code> ,如下：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@RestController</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerHelloController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Autowired</span></span><br><span class="line">    <span class="hljs-keyword">private</span> HelloControllerRemote helloControllerRemote;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"hello接口"</span>)</span><br><span class="line">    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/hello"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">(@ApiParam(<span class="hljs-string">"用户名"</span>)</span> String userName) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">return</span> helloControllerRemote.hello(userName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>验证</strong></p>
+<p><code>curl -X PUT http://localhost:9999/CONSUMER/hello</code></p>
+<blockquote>
+<p>注：我目前使用的是 <code>spring-cloud-gateway-2.1.0.RELEASE</code> ，使用<code>feign</code>调用<code>consumer</code>模块的接口，无法通过<code>/consumer/hello</code> 远程访问，而是调用 <code>/CONSUMER/hello</code>  ，模块名需要大写。</p>
+</blockquote>
+<h2 id="整合swagger"><a href="#整合swagger" class="headerlink" title="整合swagger"></a>整合swagger</h2><p>因为<code>Spring Cloud Gateway</code> 是基于<code>webflux</code>和<code>Netty</code>，而<code>swagger(version: 2.9.2)</code>目前还没有提供支持，所以我们要用<code>webflux</code>的方式提供<code>swagger</code>对外接口，</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Component</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerRouterFunction</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Autowired</span>(required = <span class="hljs-keyword">false</span>)</span><br><span class="line">    <span class="hljs-keyword">private</span> SecurityConfiguration securityConfiguration;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Autowired</span>(required = <span class="hljs-keyword">false</span>)</span><br><span class="line">    <span class="hljs-keyword">private</span> UiConfiguration uiConfiguration;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Autowired</span></span><br><span class="line">    <span class="hljs-keyword">private</span> SwaggerResourcesProvider swaggerResources;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Bean</span></span><br><span class="line">    <span class="hljs-keyword">public</span> RouterFunction&lt;?&gt; routerFunction() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">return</span> RouterFunctions</span><br><span class="line">                .route(GET(<span class="hljs-string">"/swagger-resources"</span>), request -&gt; ServerResponse.ok()</span><br><span class="line">                        .contentType(MediaType.APPLICATION_JSON_UTF8)</span><br><span class="line">                        .body(fromObject(swaggerResources.get())))</span><br><span class="line">                .andRoute(GET(<span class="hljs-string">"/swagger-resources/configuration/ui"</span>), request -&gt; ServerResponse.ok()</span><br><span class="line">                        .contentType(MediaType.APPLICATION_JSON_UTF8)</span><br><span class="line">                        .body(fromObject(Optional.ofNullable(uiConfiguration)</span><br><span class="line">                                .orElse(UiConfigurationBuilder.builder().build()))))</span><br><span class="line">                .andRoute(GET(<span class="hljs-string">"/swagger-resources/configuration/security"</span>), request -&gt; ServerResponse.ok()</span><br><span class="line">                        .contentType(MediaType.APPLICATION_JSON_UTF8)</span><br><span class="line">                        .body(fromObject(Optional.ofNullable(securityConfiguration)</span><br><span class="line">                                .orElse(SecurityConfigurationBuilder.builder().build()))));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除此之外，我们还要聚合<code>swagger</code>文档，需要提供 <code>swaggerResource list</code> ，我们是从<code>RouteLocator</code>中获取到<code>routes</code>信息，来实现自动聚合：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Primary</span></span><br><span class="line"><span class="hljs-meta">@Component</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerProvider</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">SwaggerResourcesProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;spring.application.name&#125;"</span>)</span><br><span class="line">    <span class="hljs-keyword">public</span> String applicationName;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RouteLocator routeLocator;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SwaggerProvider</span><span class="hljs-params">(RouteLocator routeLocator)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.routeLocator = routeLocator;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;SwaggerResource&gt; <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        List&lt;SwaggerResource&gt; resources = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        routeLocator.getRoutes().subscribe(route -&gt; &#123;</span><br><span class="line">            String routeUri = route.getUri().getHost();</span><br><span class="line">            <span class="hljs-keyword">if</span> (!applicationName.equalsIgnoreCase(routeUri)) &#123;</span><br><span class="line">                resources.add(swaggerResource(routeUri, String.format(<span class="hljs-string">"/%s/v2/api-docs"</span>, routeUri)));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="hljs-keyword">return</span> resources;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> SwaggerResource <span class="hljs-title">swaggerResource</span><span class="hljs-params">(String name, String location)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        SwaggerResource swaggerResource = <span class="hljs-keyword">new</span> SwaggerResource();</span><br><span class="line">        swaggerResource.setSwaggerVersion(<span class="hljs-string">"2.0"</span>);</span><br><span class="line">        swaggerResource.setName(name);</span><br><span class="line">        swaggerResource.setLocation(location);</span><br><span class="line">        <span class="hljs-keyword">return</span> swaggerResource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们启动注册中心，网关，<code>provider</code>，<code>consumer</code> 4个模块，访问 <code>http://localhost:9999/swagger-ui.html#/</code>  ，便能看到文档聚合后的效果。</p>
+<p><img src="/images/blog/2019/spring-cloud-gateway-0101.png" alt="swagger"></p>
 
         </div>
         
@@ -198,7 +202,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/docker/">docker</a>, <a class="has-link-grey -link" href="/tags/spring-boot/">spring-boot</a>
+                    <a class="has-link-grey -link" href="/tags/spring-cloud-gateway/">spring-cloud-gateway</a>
                 </div>
             </div>
         </div>
@@ -219,17 +223,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/10/01/docker-in-action-03/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Docker(三)：使用docker启动mysql &amp; redis</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2018/09/02/docker-in-action-01/">
-                <span class="level-item">Docker(一)：hello-docker</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/02/15/build-spring-boot-starter-02/">
+                <span class="level-item">构建Spring Boot Starter(二)</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -349,17 +346,21 @@
                 目录
             </h3>
             <ul class="menu-list"><li>
-        <a class="is-flex" href="#Dockerfile概述">
+        <a class="is-flex" href="#前言">
         <span class="has-mr-6">1</span>
-        <span>Dockerfile概述</span>
+        <span>前言</span>
         </a></li><li>
-        <a class="is-flex" href="#准备springboot项目">
+        <a class="is-flex" href="#Spring-Cloud-Gateway">
         <span class="has-mr-6">2</span>
-        <span>准备springboot项目</span>
+        <span>Spring Cloud Gateway</span>
         </a></li><li>
-        <a class="is-flex" href="#参考">
+        <a class="is-flex" href="#引入Spring-Cloud-Gateway">
         <span class="has-mr-6">3</span>
-        <span>参考</span>
+        <span>引入Spring Cloud Gateway</span>
+        </a></li><li>
+        <a class="is-flex" href="#整合swagger">
+        <span class="has-mr-6">4</span>
+        <span>整合swagger</span>
         </a></li></ul>
         </div>
     </div>
@@ -1173,7 +1174,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/favicon.png" alt="Docker(二)：部署springboot项目" height="28">
+                    <img src="/images/favicon.png" alt="使用Spring Cloud Gateway替换Zuul" height="28">
                 
                 </a>
                 <p class="is-size-7">
