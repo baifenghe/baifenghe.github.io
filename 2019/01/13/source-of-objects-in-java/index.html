@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="白风和">
 <meta property="og:description" content="其实阅读Java源码本身并没有那么难，只要我们踏出第一步，后面反而比我们想象的要简单。可能很多Java初学者并不知道从哪里下手，所以本篇博客将挑选一个源码较为简单的工具类——  java.util.Objects 作为切入点，走入Java源码的世界。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-13T07:46:51.542Z">
+<meta property="og:updated_time" content="2019-03-19T12:36:55.100Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java源码解读(一)：Objects">
 <meta name="twitter:description" content="其实阅读Java源码本身并没有那么难，只要我们踏出第一步，后面反而比我们想象的要简单。可能很多Java初学者并不知道从哪里下手，所以本篇博客将挑选一个源码较为简单的工具类——  java.util.Objects 作为切入点，走入Java源码的世界。">
@@ -200,7 +200,7 @@
 <li><code>hash</code> 调用了<code>Arrays.hashCode</code> 的实现，来计算数组的 <code>hash</code> 值</li>
 <li><code>toString</code>  是调用了 <code>String.valueOf</code> 方法,这点和<code>Object</code> 的实现不一样（<code>Object</code> 为<code>getClass().getName() + &quot;@&quot; + Integer.toHexString(hashCode())</code> ）</li>
 <li>oString(Object o, String nullDefault) 如果对象本身不为空则调用其toString方法，为空就使用其默认值nullDefault</li>
-<li><code>compare(T a, T b, Comparator&lt;? super T&gt; c)</code> 方法，如果我们了解过<code>Java8</code>的新特性就会知道这么一个词——行为参数话，就拿<code>Student</code> 对象来举例，<code>compare</code>两个<code>Student</code>，我们可以<code>compare</code>的属性有很多，比如年龄，身高，成绩等等。这样就导致一个<code>compare</code>方法我们可能要重载多次，但是通过行为参数化，我们将比较的这个行为（比较年龄？比较身高？）当作参数传入，就只用写一个<code>compare</code>方法，比如这里面的最后一个参数——<code>Comparator&lt;? super T&gt; c</code>，这是一个函数式接口，是我们进行对象比较的具体行为，可以参考我之前写的 <a href="https://baifenghe.github.io/2018/08/11/behavioral-parameterization/">行为参数化</a> 这篇文章</li>
+<li><code>compare(T a, T b, Comparator&lt;? super T&gt; c)</code> 方法，如果我们了解过<code>Java8</code>的新特性就会知道这么一个词——行为参数话，就拿<code>Student</code> 对象来举例，<code>compare</code>两个<code>Student</code>，我们可以<code>compare</code>的属性有很多，比如年龄，身高，成绩等等。这样就导致一个<code>compare</code>方法我们可能要重载多次，但是通过行为参数化，我们将比较的这个行为（比较年龄？比较身高？）当作参数传入，就只用写一个<code>compare</code>方法，比如这里面的最后一个参数——<code>Comparator&lt;? super T&gt; c</code>，这是一个函数式接口，是我们进行对象比较的具体行为，可以参考我之前写的 <a href="https://byference.github.io/2018/08/11/behavioral-parameterization/" target="_blank" rel="noopener">行为参数化</a> 这篇文章</li>
 <li>以及一些针对<code>null</code>封装的一些方法，自行阅读即可。</li>
 </ol>
 <p>Java的源码解读是我很早就想做的一件事，但由于自身水平所限，写出来的文章达不到我理想的效果，请多见谅。</p>

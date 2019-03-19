@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="白风和">
 <meta property="og:description" content="利用拦截器实现注解上一篇 自定义注解实战（一） 中说到使用aop最大的好处是不侵入业务代码，但是有些业务需要拦截请求，比如参数校验，为空的话直接返回isNull的错误信息，这时候用AOP来做这件事就显得不太优雅了，所以我想到了用拦截器来实现，定义注解的方式还是一样，这里就不多加赘述了。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-13T13:39:08.527Z">
+<meta property="og:updated_time" content="2019-03-19T12:38:57.101Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自定义注解实战（二）">
 <meta name="twitter:description" content="利用拦截器实现注解上一篇 自定义注解实战（一） 中说到使用aop最大的好处是不侵入业务代码，但是有些业务需要拦截请求，比如参数校验，为空的话直接返回isNull的错误信息，这时候用AOP来做这件事就显得不太优雅了，所以我想到了用拦截器来实现，定义注解的方式还是一样，这里就不多加赘述了。">
@@ -158,7 +158,7 @@
             
         </h1>
         <div class="content">
-            <h3 id="利用拦截器实现注解"><a href="#利用拦截器实现注解" class="headerlink" title="利用拦截器实现注解"></a>利用拦截器实现注解</h3><p>上一篇 <a href="https://baifenghe.github.io/2018/04/05/annotation-in-action-01/">自定义注解实战（一）</a> 中说到使用aop最大的好处是不侵入业务代码，但是有些业务需要拦截请求，比如参数校验，为空的话直接返回isNull的错误信息，这时候用AOP来做这件事就显得不太优雅了，所以我想到了用拦截器来实现，定义注解的方式还是一样，这里就不多加赘述了。</p>
+            <h3 id="利用拦截器实现注解"><a href="#利用拦截器实现注解" class="headerlink" title="利用拦截器实现注解"></a>利用拦截器实现注解</h3><p>上一篇 <a href="https://byference.github.io/2018/04/05/annotation-in-action-01/" target="_blank" rel="noopener">自定义注解实战（一）</a> 中说到使用aop最大的好处是不侵入业务代码，但是有些业务需要拦截请求，比如参数校验，为空的话直接返回isNull的错误信息，这时候用AOP来做这件事就显得不太优雅了，所以我想到了用拦截器来实现，定义注解的方式还是一样，这里就不多加赘述了。</p>
 <a id="more"></a>
 <h3 id="声明拦截器"><a href="#声明拦截器" class="headerlink" title="声明拦截器"></a>声明拦截器</h3><p>声明拦截器我们利用SpringMVC进行配置，而在<code>mvc:interceptors</code>标签下声明interceptor主要有两种方式：</p>
 <ol>

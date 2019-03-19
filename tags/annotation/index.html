@@ -160,7 +160,7 @@
             
         </h1>
         <div class="content">
-            <h3 id="利用拦截器实现注解"><a href="#利用拦截器实现注解" class="headerlink" title="利用拦截器实现注解"></a>利用拦截器实现注解</h3><p>上一篇 <a href="https://baifenghe.github.io/2018/04/05/annotation-in-action-01/">自定义注解实战（一）</a> 中说到使用aop最大的好处是不侵入业务代码，但是有些业务需要拦截请求，比如参数校验，为空的话直接返回isNull的错误信息，这时候用AOP来做这件事就显得不太优雅了，所以我想到了用拦截器来实现，定义注解的方式还是一样，这里就不多加赘述了。</p>
+            <h3 id="利用拦截器实现注解"><a href="#利用拦截器实现注解" class="headerlink" title="利用拦截器实现注解"></a>利用拦截器实现注解</h3><p>上一篇 <a href="https://byference.github.io/2018/04/05/annotation-in-action-01/" target="_blank" rel="noopener">自定义注解实战（一）</a> 中说到使用aop最大的好处是不侵入业务代码，但是有些业务需要拦截请求，比如参数校验，为空的话直接返回isNull的错误信息，这时候用AOP来做这件事就显得不太优雅了，所以我想到了用拦截器来实现，定义注解的方式还是一样，这里就不多加赘述了。</p>
         </div>
         
         
@@ -211,7 +211,7 @@
             
         </h1>
         <div class="content">
-            <h3 id="利用AOP实现注解"><a href="#利用AOP实现注解" class="headerlink" title="利用AOP实现注解"></a>利用AOP实现注解</h3><p>个人见解：使用aop最大的好处是不侵入业务代码，就可以在方法执行前或者执行后来实现某些功能，比如日志打印，权限处理等等。正是因为不侵入代码的特性，我们不建议利用aop去截断请求（request），返回包含错误信息的响应（response）。其实我之前有这么做过，自定义权限注解，用户没有权限的话，直接返回没有权限的错误信息（response），功能上可以实现，虽然给我抛异常了，有代码洁癖的我就只能使用拦截器的方法实现该注解了，利用拦截器实现注解将在 <a href="https://baifenghe.github.io/2018/04/06/annotation-in-action-02/">自定义注解实战（二）</a> 中来介绍，本篇介绍利用aop来实现注解——当说明书来看吧。。。</p>
+            <h3 id="利用AOP实现注解"><a href="#利用AOP实现注解" class="headerlink" title="利用AOP实现注解"></a>利用AOP实现注解</h3><p>个人见解：使用aop最大的好处是不侵入业务代码，就可以在方法执行前或者执行后来实现某些功能，比如日志打印，权限处理等等。正是因为不侵入代码的特性，我们不建议利用aop去截断请求（request），返回包含错误信息的响应（response）。其实我之前有这么做过，自定义权限注解，用户没有权限的话，直接返回没有权限的错误信息（response），功能上可以实现，虽然给我抛异常了，有代码洁癖的我就只能使用拦截器的方法实现该注解了，利用拦截器实现注解将在 <a href="https://byference.github.io/2018/04/06/annotation-in-action-02/" target="_blank" rel="noopener">自定义注解实战（二）</a> 中来介绍，本篇介绍利用aop来实现注解——当说明书来看吧。。。</p>
         </div>
         
         
