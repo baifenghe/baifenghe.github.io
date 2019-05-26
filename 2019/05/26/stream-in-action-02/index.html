@@ -2,18 +2,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>归档: 2018 - 白风和</title>
+<title>Java8 Stream实战（二） - 白风和</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="白风和">
-<meta property="og:url" content="https://baifenghe.github.io/archives/2018/index.html">
+    <meta name="description" content="前言实际工作中，我们面临的数据处理场景异常复杂，往往需要多种API组合使用。对于常见的处理需求，Java8提供了例如 Collectors 来协助我们处理集合，比如我们需要将流收集成一个ArrayList 的时候，我们可以直接使用java.util.stream.Collectors#toList，如下 1List collect = students.stream().collect(Colle">
+<meta name="keywords" content="java8,stream">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8 Stream实战（二）">
+<meta property="og:url" content="https://baifenghe.github.io/2019/05/26/stream-in-action-02/index.html">
 <meta property="og:site_name" content="白风和">
+<meta property="og:description" content="前言实际工作中，我们面临的数据处理场景异常复杂，往往需要多种API组合使用。对于常见的处理需求，Java8提供了例如 Collectors 来协助我们处理集合，比如我们需要将流收集成一个ArrayList 的时候，我们可以直接使用java.util.stream.Collectors#toList，如下 1List collect = students.stream().collect(Colle">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-26T12:13:20.427Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="白风和">
+<meta name="twitter:title" content="Java8 Stream实战（二）">
+<meta name="twitter:description" content="前言实际工作中，我们面临的数据处理场景异常复杂，往往需要多种API组合使用。对于常见的处理需求，Java8提供了例如 Collectors 来协助我们处理集合，比如我们需要将流收集成一个ArrayList 的时候，我们可以直接使用java.util.stream.Collectors#toList，如下 1List collect = students.stream().collect(Colle">
 
 
 
@@ -83,7 +88,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/favicon.png" alt="白风和" height="28">
+                <img src="/images/favicon.png" alt="Java8 Stream实战（二）" height="28">
             
             </a>
         </div>
@@ -108,6 +113,10 @@
             <div class="navbar-end">
                 
                 
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
                 
                 <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
@@ -121,187 +130,89 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="tag is-link">
-        2018
-        </h3>
-        <div class="timeline">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/math.jpg" alt="Java8 Stream实战（二）">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
         
-            <article class="media">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-26T07:22:05.000Z">2019-05-26</time>
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-10-01T05:11:43.000Z">2018-10-01</time>
-                        <a href="/2018/10/01/docker-in-action-03/" class="has-link-black-ter is-size-6">Docker(三)：使用docker启动mysql &amp; redis</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/docker/">docker</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/java/">java</a>
                 </div>
-            </article>
-        
-            <article class="media">
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-09-26T12:16:08.000Z">2018-09-26</time>
-                        <a href="/2018/09/26/docker-in-action-02/" class="has-link-black-ter is-size-6">Docker(二)：部署springboot项目</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/docker/">docker</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-09-02T11:58:01.000Z">2018-09-02</time>
-                        <a href="/2018/09/02/docker-in-action-01/" class="has-link-black-ter is-size-6">Docker(一)：hello-docker</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/docker/">docker</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 376 个字)
+                </span>
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-08-26T03:18:25.000Z">2018-08-26</time>
-                        <a href="/2018/08/26/lombok/" class="has-link-black-ter is-size-6">lombok 实战</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/java/">java</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-08-13T09:24:00.000Z">2018-08-13</time>
-                        <a href="/2018/08/13/stream-in-action-01/" class="has-link-black-ter is-size-6">Java8 Stream实战（一）</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/java/">java</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-08-12T13:58:37.000Z">2018-08-12</time>
-                        <a href="/2018/08/12/java8-lambda/" class="has-link-black-ter is-size-6">Java8 lambda 实战</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/java/">java</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-08-11T14:03:43.000Z">2018-08-11</time>
-                        <a href="/2018/08/11/behavioral-parameterization/" class="has-link-black-ter is-size-6">行为参数化</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/java/">java</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-04-06T13:36:00.000Z">2018-04-06</time>
-                        <a href="/2018/04/06/annotation-in-action-02/" class="has-link-black-ter is-size-6">自定义注解实战（二）</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/java/">java</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2018-04-05T12:36:00.000Z">2018-04-05</time>
-                        <a href="/2018/04/05/annotation-in-action-01/" class="has-link-black-ter is-size-6">自定义注解实战（一）</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/java/">java</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java8 Stream实战（二）
+            
+        </h1>
+        <div class="content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>实际工作中，我们面临的数据处理场景异常复杂，往往需要多种API组合使用。对于常见的处理需求，Java8提供了例如 <code>Collectors</code> 来协助我们处理集合，比如我们需要将流收集成一个<code>ArrayList</code> 的时候，我们可以直接使用<code>java.util.stream.Collectors#toList</code>，如下</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List collect = students.stream().collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>但是 <code>Collectors#toList</code> 的实现相较于上面的函数式编程API，显得不那么简单明了，反而有些复杂：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; Collector&lt;T, ?, List&lt;T&gt;&gt; toList() &#123;</span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CollectorImpl&lt;&gt;((Supplier&lt;List&lt;T&gt;&gt;) ArrayList::<span class="hljs-keyword">new</span>, List::add,</span><br><span class="line">                               (left, right) -&gt; &#123; left.addAll(right); <span class="hljs-keyword">return</span> left; &#125;,</span><br><span class="line">                               CH_ID);</span><br></pre></td></tr></table></figure>
+<p>对于源码这里就不过多介绍，本次主要是记录工作中一些常见的数据处理场景中，一起看看<code>Stream</code>是如何体现其优势的。</p>
+<h2 id="Stream-in-action"><a href="#Stream-in-action" class="headerlink" title="Stream in action"></a>Stream in action</h2><h3 id="自定义分组"><a href="#自定义分组" class="headerlink" title="自定义分组"></a>自定义分组</h3><blockquote>
+<p>自定义分组（Map）的key &amp; value</p>
+</blockquote>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// 根据学生编号分组，value为学生的姓名</span></span><br><span class="line">Map&lt;String, List&lt;String&gt;&gt; collect = students.stream().collect(Collectors.groupingBy(</span><br><span class="line">                Student::getStudentNo,</span><br><span class="line">                Collectors.mapping(Student::getName, Collectors.toList())));</span><br><span class="line">        collect.forEach((k, v) -&gt; System.out.printf(<span class="hljs-string">"studentNo: [%s], name: %s \n"</span>, k, v));</span><br></pre></td></tr></table></figure>
+<h3 id="自定义去重"><a href="#自定义去重" class="headerlink" title="自定义去重"></a>自定义去重</h3><h4 id="利用Set去重"><a href="#利用Set去重" class="headerlink" title="利用Set去重"></a>利用Set去重</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">generateTest2</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Set&lt;Student&gt; collect = students.stream().collect(</span><br><span class="line">        Collectors.toCollection(</span><br><span class="line">            () -&gt; <span class="hljs-keyword">new</span> TreeSet&lt;&gt;(Comparator.comparing(Person::getId))));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述是将 <code>List</code> 转换成 <code>Set</code>，从而利用 <code>Set</code> 的特性来完成去重，如果想收集的对象是 <code>List</code> ，可以参考下面代码：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Student&gt; collect = students.stream().collect(Collectors.collectingAndThen(</span><br><span class="line">            	Collectors.toCollection(() -&gt; <span class="hljs-keyword">new</span> TreeSet&lt;&gt;(Comparator.comparing(Student::getStudentNo))),</span><br><span class="line">                ArrayList::<span class="hljs-keyword">new</span>));</span><br><span class="line">collect.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/java8/">java8</a>, <a class="has-link-grey -link" href="/tags/stream/">stream</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/09/spring-cloud-gateway-01/">
+                <span class="level-item">使用Spring Cloud Gateway替换Zuul</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
     </div>
 </div>
 
@@ -410,6 +321,37 @@
 </div>
     
         
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#前言">
+        <span class="has-mr-6">1</span>
+        <span>前言</span>
+        </a></li><li>
+        <a class="is-flex" href="#Stream-in-action">
+        <span class="has-mr-6">2</span>
+        <span>Stream in action</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#自定义分组">
+        <span class="has-mr-6">2.1</span>
+        <span>自定义分组</span>
+        </a></li><li>
+        <a class="is-flex" href="#自定义去重">
+        <span class="has-mr-6">2.2</span>
+        <span>自定义去重</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#利用Set去重">
+        <span class="has-mr-6">2.2.1</span>
+        <span>利用Set去重</span>
+        </a></li></ul></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
     
         
 
@@ -1232,7 +1174,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/favicon.png" alt="白风和" height="28">
+                    <img src="/images/favicon.png" alt="Java8 Stream实战（二）" height="28">
                 
                 </a>
                 <p class="is-size-7">
