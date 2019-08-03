@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="白风和">
 <meta property="og:description" content="前言实际工作中，我们面临的数据处理场景异常复杂，往往需要多种API组合使用。对于常见的处理需求，Java8提供了例如 Collectors 来协助我们处理集合，比如我们需要将流收集成一个ArrayList 的时候，我们可以直接使用java.util.stream.Collectors#toList，如下 1List collect = students.stream().collect(Colle">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-26T12:13:20.427Z">
+<meta property="og:updated_time" content="2019-08-03T07:56:05.974Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8 Stream实战（二）">
 <meta name="twitter:description" content="前言实际工作中，我们面临的数据处理场景异常复杂，往往需要多种API组合使用。对于常见的处理需求，Java8提供了例如 Collectors 来协助我们处理集合，比如我们需要将流收集成一个ArrayList 的时候，我们可以直接使用java.util.stream.Collectors#toList，如下 1List collect = students.stream().collect(Colle">
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 376 个字)
+                    5 分钟 读完 (大约 694 个字)
                 </span>
                 
             </div>
@@ -177,6 +177,13 @@
 <h3 id="自定义去重"><a href="#自定义去重" class="headerlink" title="自定义去重"></a>自定义去重</h3><h4 id="利用Set去重"><a href="#利用Set去重" class="headerlink" title="利用Set去重"></a>利用Set去重</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Test</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">generateTest2</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Set&lt;Student&gt; collect = students.stream().collect(</span><br><span class="line">        Collectors.toCollection(</span><br><span class="line">            () -&gt; <span class="hljs-keyword">new</span> TreeSet&lt;&gt;(Comparator.comparing(Person::getId))));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上述是将 <code>List</code> 转换成 <code>Set</code>，从而利用 <code>Set</code> 的特性来完成去重，如果想收集的对象是 <code>List</code> ，可以参考下面代码：</p>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Student&gt; collect = students.stream().collect(Collectors.collectingAndThen(</span><br><span class="line">            	Collectors.toCollection(() -&gt; <span class="hljs-keyword">new</span> TreeSet&lt;&gt;(Comparator.comparing(Student::getStudentNo))),</span><br><span class="line">                ArrayList::<span class="hljs-keyword">new</span>));</span><br><span class="line">collect.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+<h3 id="List-转换-Map"><a href="#List-转换-Map" class="headerlink" title="List 转换 Map"></a>List 转换 Map</h3><p>工作中我们经常遇到根据<code>ID</code> 或者其他一些标识符将<code>List</code>转成<code>Map</code>的场景，对象的一个属性作为key，用来避免例如嵌套for循环。利用 <code>Collectors#groupingBy</code> 可以达到分组的效果，但是获取到的是 <code>Map&lt;K, List&lt;V&gt;&gt;</code> ,不方便我们使用，尽管有时候我们是根据主键（唯一）来分组，对于这样的key，只会存在一个value与之对应。那么我们如何获取到 <code>Map&lt;K, V&gt;</code> 呢，我们可以使用 <code>Collectors#toMap</code> ，JDK1.8中  <code>toMap</code>有三个重载方法，</p>
+<p>1、如果能保证一个key只会对应一个value</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, String&gt; collect = STUDENTS.stream()</span><br><span class="line">        .collect(Collectors.toMap(Student::getStudentNo, Student::getName));</span><br><span class="line"></span><br><span class="line">collect.forEach((k, v) -&gt; System.out.printf(<span class="hljs-string">"key: %s , value: %s \n"</span>, k, v));</span><br></pre></td></tr></table></figure>
+<p>2、如果一个key可能对应多个value（只保留其中一个value）</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, String&gt; collect = STUDENTS.stream().collect(Collectors.toMap(</span><br><span class="line">    Student::getStudentNo, Student::getName, (s1, s2) -&gt; s1));</span><br><span class="line"></span><br><span class="line">collect.forEach((k, v) -&gt; System.out.printf(<span class="hljs-string">"key: %s , value: %s \n"</span>, k, v));</span><br></pre></td></tr></table></figure>
+<p>3、如果一个key可能对应多个value（只保留其中一个value），但是想以非<code>HashMap</code> 来作为容器</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, String&gt; collect = STUDENTS.stream().collect(Collectors.toMap(</span><br><span class="line">    Student::getStudentNo, Student::getName, (s1, s2) -&gt; s1, TreeMap::<span class="hljs-keyword">new</span>));</span><br><span class="line"></span><br><span class="line">collect.forEach((k, v) -&gt; System.out.printf(<span class="hljs-string">"key: %s , value: %s \n"</span>, k, v));</span><br></pre></td></tr></table></figure>
 
         </div>
         
@@ -347,7 +354,11 @@
         <a class="is-flex" href="#利用Set去重">
         <span class="has-mr-6">2.2.1</span>
         <span>利用Set去重</span>
-        </a></li></ul></li></ul></li></ul>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#List-转换-Map">
+        <span class="has-mr-6">2.3</span>
+        <span>List 转换 Map</span>
+        </a></li></ul></li></ul>
         </div>
     </div>
 </div>
