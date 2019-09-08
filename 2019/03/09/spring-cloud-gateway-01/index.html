@@ -8,7 +8,7 @@
 
 
     <meta name="description" content="前言随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 spinrg-cloud-in-action 进行相应的调整，计划使用 Spring Cloud Gateway 替代 Zuul，使用 Resilience4j 替换目前使用的 Hystrix ，这篇博客记录下整合 Spring Cloud Gateway 的一些过程。">
-<meta name="keywords" content="spring-cloud-gateway">
+<meta name="keywords" content="Spring Cloud Gateway">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Spring Cloud Gateway替换Zuul">
 <meta property="og:url" content="https://byference.github.io/2019/03/09/spring-cloud-gateway-01/index.html">
@@ -16,7 +16,7 @@
 <meta property="og:description" content="前言随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 spinrg-cloud-in-action 进行相应的调整，计划使用 Spring Cloud Gateway 替代 Zuul，使用 Resilience4j 替换目前使用的 Hystrix ，这篇博客记录下整合 Spring Cloud Gateway 的一些过程。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://byference.github.io/images/blog/2019/spring-cloud-gateway-0101.png">
-<meta property="og:updated_time" content="2019-03-19T12:37:49.563Z">
+<meta property="og:updated_time" content="2019-09-08T12:38:49.491Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Spring Cloud Gateway替换Zuul">
 <meta name="twitter:description" content="前言随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 spinrg-cloud-in-action 进行相应的调整，计划使用 Spring Cloud Gateway 替代 Zuul，使用 Resilience4j 替换目前使用的 Hystrix ，这篇博客记录下整合 Spring Cloud Gateway 的一些过程。">
@@ -100,9 +100,9 @@
                 
                 <a class="navbar-item" href="/.">首页</a>
                 
-                <a class="navbar-item" href="/categories/spring-boot">SpringBoot</a>
+                <a class="navbar-item" href="/categories/spring-boot">Spring Boot</a>
                 
-                <a class="navbar-item" href="/categories/spring-cloud">SpringCloud</a>
+                <a class="navbar-item" href="/categories/spring-cloud">Spring Cloud</a>
                 
                 <a class="navbar-item" href="/categories/docker">Docker</a>
                 
@@ -147,7 +147,7 @@
                 <time class="level-item has-text-grey" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a>
+                <a class="has-link-grey -link" href="/categories/Spring-Cloud/">Spring Cloud</a>
                 </div>
                 
                 
@@ -203,7 +203,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/spring-cloud-gateway/">spring-cloud-gateway</a>
+                    <a class="has-link-grey -link" href="/tags/Spring-Cloud-Gateway/">Spring Cloud Gateway</a>
                 </div>
             </div>
         </div>
@@ -284,7 +284,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        14
+                        15
                     </p>
                 </div>
             </div>
@@ -392,41 +392,41 @@
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/docker/">
+        <a class="level is-marginless" href="/categories/Docker/">
             <span class="level-start">
-                <span class="level-item">docker</span>
+                <span class="level-item">Docker</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">3</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/java/">
+        <a class="level is-marginless" href="/categories/Java/">
             <span class="level-start">
-                <span class="level-item">java</span>
+                <span class="level-item">Java</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">8</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/spring-boot/">
+        <a class="level is-marginless" href="/categories/Spring/">
             <span class="level-start">
-                <span class="level-item">spring-boot</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/spring-cloud/">
-            <span class="level-start">
-                <span class="level-item">spring-cloud</span>
+                <span class="level-item">Spring</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/源码/">
+        <a class="level is-marginless" href="/categories/Spring-Boot/">
             <span class="level-start">
-                <span class="level-item">源码</span>
+                <span class="level-item">Spring Boot</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring-Cloud/">
+            <span class="level-start">
+                <span class="level-item">Spring Cloud</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -443,7 +443,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/annotation/" style="font-size: 13.33px;">annotation</a> <a href="/tags/docker/" style="font-size: 16.67px;">docker</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/java8/" style="font-size: 20px;">java8</a> <a href="/tags/lambda/" style="font-size: 10px;">lambda</a> <a href="/tags/lombok/" style="font-size: 10px;">lombok</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/spring-boot/" style="font-size: 16.67px;">spring-boot</a> <a href="/tags/spring-cloud-gateway/" style="font-size: 10px;">spring-cloud-gateway</a> <a href="/tags/stream/" style="font-size: 13.33px;">stream</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/源码/" style="font-size: 10px;">源码</a>
+        <a href="/tags/Annotation/" style="font-size: 13.33px;">Annotation</a> <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/Lombok/" style="font-size: 10px;">Lombok</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Spring-Boot/" style="font-size: 16.67px;">Spring Boot</a> <a href="/tags/Spring-Cloud-Gateway/" style="font-size: 10px;">Spring Cloud Gateway</a> <a href="/tags/Spring-Resty/" style="font-size: 10px;">Spring Resty</a> <a href="/tags/Stream/" style="font-size: 13.33px;">Stream</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/源码/" style="font-size: 13.33px;">源码</a>
     </div>
 </div>
 
@@ -460,6 +460,25 @@
         
         <article class="media">
             
+            <a href="/2019/09/08/spring-retry-in-action/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/deer.jpg" alt="Spring Retry 实战 &amp; 源码">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-08T08:50:22.000Z">2019-09-08</time></div>
+                    <a href="/2019/09/08/spring-retry-in-action/" class="has-link-black-ter is-size-6">Spring Retry 实战 &amp; 源码</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/05/26/stream-in-action-02/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/math.jpg" alt="Java8 Stream实战（二）">
@@ -471,7 +490,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-26T07:22:05.000Z">2019-05-26</time></div>
                     <a href="/2019/05/26/stream-in-action-02/" class="has-link-black-ter is-size-6">Java8 Stream实战（二）</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/java/">java</a>
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a>
                     </p>
                 </div>
             </div>
@@ -490,7 +509,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time></div>
                     <a href="/2019/03/09/spring-cloud-gateway-01/" class="has-link-black-ter is-size-6">使用Spring Cloud Gateway替换Zuul</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a>
+                        <a class="has-link-grey -link" href="/categories/Spring-Cloud/">Spring Cloud</a>
                     </p>
                 </div>
             </div>
@@ -509,7 +528,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-15T13:15:20.000Z">2019-02-15</time></div>
                     <a href="/2019/02/15/build-spring-boot-starter-02/" class="has-link-black-ter is-size-6">构建Spring Boot Starter(二)</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spring-boot/">spring-boot</a>
+                        <a class="has-link-grey -link" href="/categories/Spring-Boot/">Spring Boot</a>
                     </p>
                 </div>
             </div>
@@ -528,26 +547,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-13T07:46:24.000Z">2019-01-13</time></div>
                     <a href="/2019/01/13/source-of-objects-in-java/" class="has-link-black-ter is-size-6">Java源码解读(一)：Objects</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/源码/">源码</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/01/08/build-spring-boot-starter-01/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/flower.jpg" alt="构建Spring Boot Starter(一)">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-08T13:24:20.000Z">2019-01-08</time></div>
-                    <a href="/2019/01/08/build-spring-boot-starter-01/" class="has-link-black-ter is-size-6">构建Spring Boot Starter(一)</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spring-boot/">spring-boot</a>
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a>
                     </p>
                 </div>
             </div>
@@ -564,6 +564,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/05/">
@@ -667,9 +678,9 @@
             <ul class="menu-list">
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/annotation/">
+                    <a class="level is-marginless" href="/tags/Annotation/">
                         <span class="level-start">
-                            <span class="level-item">annotation</span>
+                            <span class="level-item">Annotation</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
@@ -678,9 +689,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/docker/">
+                    <a class="level is-marginless" href="/tags/Docker/">
                         <span class="level-start">
-                            <span class="level-item">docker</span>
+                            <span class="level-item">Docker</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
@@ -689,9 +700,20 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/java/">
+                    <a class="level is-marginless" href="/tags/Java/">
                         <span class="level-start">
-                            <span class="level-item">java</span>
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">5</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Lambda/">
+                        <span class="level-start">
+                            <span class="level-item">Lambda</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -700,20 +722,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/java8/">
+                    <a class="level is-marginless" href="/tags/Lombok/">
                         <span class="level-start">
-                            <span class="level-item">java8</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">4</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/lambda/">
-                        <span class="level-start">
-                            <span class="level-item">lambda</span>
+                            <span class="level-item">Lombok</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -722,9 +733,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/lombok/">
+                    <a class="level is-marginless" href="/tags/MySQL/">
                         <span class="level-start">
-                            <span class="level-item">lombok</span>
+                            <span class="level-item">MySQL</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -733,9 +744,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/mysql/">
+                    <a class="level is-marginless" href="/tags/Redis/">
                         <span class="level-start">
-                            <span class="level-item">mysql</span>
+                            <span class="level-item">Redis</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -744,20 +755,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/redis/">
+                    <a class="level is-marginless" href="/tags/Spring-Boot/">
                         <span class="level-start">
-                            <span class="level-item">redis</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/spring-boot/">
-                        <span class="level-start">
-                            <span class="level-item">spring-boot</span>
+                            <span class="level-item">Spring Boot</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
@@ -766,9 +766,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/spring-cloud-gateway/">
+                    <a class="level is-marginless" href="/tags/Spring-Cloud-Gateway/">
                         <span class="level-start">
-                            <span class="level-item">spring-cloud-gateway</span>
+                            <span class="level-item">Spring Cloud Gateway</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -777,9 +777,20 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/stream/">
+                    <a class="level is-marginless" href="/tags/Spring-Resty/">
                         <span class="level-start">
-                            <span class="level-item">stream</span>
+                            <span class="level-item">Spring Resty</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Stream/">
+                        <span class="level-start">
+                            <span class="level-item">Stream</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
@@ -788,9 +799,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/yaml/">
+                    <a class="level is-marginless" href="/tags/YAML/">
                         <span class="level-start">
-                            <span class="level-item">yaml</span>
+                            <span class="level-item">YAML</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -804,7 +815,7 @@
                             <span class="level-item">源码</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -834,6 +845,25 @@
         
         <article class="media">
             
+            <a href="/2019/09/08/spring-retry-in-action/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/deer.jpg" alt="Spring Retry 实战 &amp; 源码">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-08T08:50:22.000Z">2019-09-08</time></div>
+                    <a href="/2019/09/08/spring-retry-in-action/" class="has-link-black-ter is-size-6">Spring Retry 实战 &amp; 源码</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/05/26/stream-in-action-02/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/math.jpg" alt="Java8 Stream实战（二）">
@@ -845,7 +875,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-26T07:22:05.000Z">2019-05-26</time></div>
                     <a href="/2019/05/26/stream-in-action-02/" class="has-link-black-ter is-size-6">Java8 Stream实战（二）</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/java/">java</a>
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a>
                     </p>
                 </div>
             </div>
@@ -864,7 +894,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time></div>
                     <a href="/2019/03/09/spring-cloud-gateway-01/" class="has-link-black-ter is-size-6">使用Spring Cloud Gateway替换Zuul</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spring-cloud/">spring-cloud</a>
+                        <a class="has-link-grey -link" href="/categories/Spring-Cloud/">Spring Cloud</a>
                     </p>
                 </div>
             </div>
@@ -883,7 +913,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-15T13:15:20.000Z">2019-02-15</time></div>
                     <a href="/2019/02/15/build-spring-boot-starter-02/" class="has-link-black-ter is-size-6">构建Spring Boot Starter(二)</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spring-boot/">spring-boot</a>
+                        <a class="has-link-grey -link" href="/categories/Spring-Boot/">Spring Boot</a>
                     </p>
                 </div>
             </div>
@@ -902,26 +932,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-13T07:46:24.000Z">2019-01-13</time></div>
                     <a href="/2019/01/13/source-of-objects-in-java/" class="has-link-black-ter is-size-6">Java源码解读(一)：Objects</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/源码/">源码</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/01/08/build-spring-boot-starter-01/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/flower.jpg" alt="构建Spring Boot Starter(一)">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-08T13:24:20.000Z">2019-01-08</time></div>
-                    <a href="/2019/01/08/build-spring-boot-starter-01/" class="has-link-black-ter is-size-6">构建Spring Boot Starter(一)</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/spring-boot/">spring-boot</a>
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a>
                     </p>
                 </div>
             </div>
@@ -938,6 +949,17 @@
             归档
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/05/">
@@ -1041,9 +1063,9 @@
             <ul class="menu-list">
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/annotation/">
+                    <a class="level is-marginless" href="/tags/Annotation/">
                         <span class="level-start">
-                            <span class="level-item">annotation</span>
+                            <span class="level-item">Annotation</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
@@ -1052,9 +1074,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/docker/">
+                    <a class="level is-marginless" href="/tags/Docker/">
                         <span class="level-start">
-                            <span class="level-item">docker</span>
+                            <span class="level-item">Docker</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
@@ -1063,9 +1085,20 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/java/">
+                    <a class="level is-marginless" href="/tags/Java/">
                         <span class="level-start">
-                            <span class="level-item">java</span>
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">5</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Lambda/">
+                        <span class="level-start">
+                            <span class="level-item">Lambda</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1074,20 +1107,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/java8/">
+                    <a class="level is-marginless" href="/tags/Lombok/">
                         <span class="level-start">
-                            <span class="level-item">java8</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">4</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/lambda/">
-                        <span class="level-start">
-                            <span class="level-item">lambda</span>
+                            <span class="level-item">Lombok</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1096,9 +1118,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/lombok/">
+                    <a class="level is-marginless" href="/tags/MySQL/">
                         <span class="level-start">
-                            <span class="level-item">lombok</span>
+                            <span class="level-item">MySQL</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1107,9 +1129,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/mysql/">
+                    <a class="level is-marginless" href="/tags/Redis/">
                         <span class="level-start">
-                            <span class="level-item">mysql</span>
+                            <span class="level-item">Redis</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1118,20 +1140,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/redis/">
+                    <a class="level is-marginless" href="/tags/Spring-Boot/">
                         <span class="level-start">
-                            <span class="level-item">redis</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/spring-boot/">
-                        <span class="level-start">
-                            <span class="level-item">spring-boot</span>
+                            <span class="level-item">Spring Boot</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">3</span>
@@ -1140,9 +1151,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/spring-cloud-gateway/">
+                    <a class="level is-marginless" href="/tags/Spring-Cloud-Gateway/">
                         <span class="level-start">
-                            <span class="level-item">spring-cloud-gateway</span>
+                            <span class="level-item">Spring Cloud Gateway</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1151,9 +1162,20 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/stream/">
+                    <a class="level is-marginless" href="/tags/Spring-Resty/">
                         <span class="level-start">
-                            <span class="level-item">stream</span>
+                            <span class="level-item">Spring Resty</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Stream/">
+                        <span class="level-start">
+                            <span class="level-item">Stream</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
@@ -1162,9 +1184,9 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/yaml/">
+                    <a class="level is-marginless" href="/tags/YAML/">
                         <span class="level-start">
-                            <span class="level-item">yaml</span>
+                            <span class="level-item">YAML</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1178,7 +1200,7 @@
                             <span class="level-item">源码</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
