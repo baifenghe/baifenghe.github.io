@@ -2,18 +2,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>分类: Spring Boot - 白风和</title>
+<title>Docker(三)：使用docker启动mysql &amp; redis - 白风和</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="白风和">
-<meta property="og:url" content="https://byference.github.io/categories/Spring-Boot/index.html">
+    <meta name="description" content="docker很便捷，最开始有这种感受是用一行命令去启动了mysql服务。想当初刚接触数据库那会，那么费力气的安装mysql也是服气。（捂脸哭~ 但是在启动mysql容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。">
+<meta name="keywords" content="Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker(三)：使用docker启动mysql &amp; redis">
+<meta property="og:url" content="https://byference.github.io/2018/10/01/docker-in-action-03/index.html">
 <meta property="og:site_name" content="白风和">
+<meta property="og:description" content="docker很便捷，最开始有这种感受是用一行命令去启动了mysql服务。想当初刚接触数据库那会，那么费力气的安装mysql也是服气。（捂脸哭~ 但是在启动mysql容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-14T00:30:32.405Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="白风和">
+<meta name="twitter:title" content="Docker(三)：使用docker启动mysql &amp; redis">
+<meta name="twitter:description" content="docker很便捷，最开始有这种感受是用一行命令去启动了mysql服务。想当初刚接触数据库那会，那么费力气的安装mysql也是服气。（捂脸哭~ 但是在启动mysql容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。">
 
 
 
@@ -83,7 +88,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/favicon.png" alt="白风和" height="28">
+                <img src="/images/favicon.png" alt="Docker(三)：使用docker启动mysql &amp; redis" height="28">
             
             </a>
         </div>
@@ -108,6 +113,10 @@
             <div class="navbar-end">
                 
                 
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
                 
                 <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
@@ -122,40 +131,22 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/categories">分类</a></li>
-            
-            <li class="is-active"><a href="#" aria-current="page">Spring Boot</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/15/build-spring-boot-starter-02/" class="image is-7by1">
-            <img class="thumbnail" src="/images/desert.jpg" alt="构建Spring Boot Starter(二)">
-        </a>
-    </div>
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-15T13:15:20.000Z">2019-02-15</time>
+                <time class="level-item has-text-grey" datetime="2018-10-01T05:11:43.000Z">2018-10-01</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Spring-Boot/">Spring Boot</a>
+                <a class="has-link-grey -link" href="/categories/Docker/">Docker</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 989 个字)
+                    7 分钟 读完 (大约 1020 个字)
                 </span>
                 
             </div>
@@ -163,25 +154,75 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/02/15/build-spring-boot-starter-02/">构建Spring Boot Starter(二)</a>
+                Docker(三)：使用docker启动mysql &amp; redis
             
         </h1>
         <div class="content">
-            <blockquote>
-<p> 注：案例工程使用的spring boot 版本为  2.1.2.RELEASE，Java 版本为  1.8</p>
-</blockquote>
-<p>熟悉<code>spring boot</code>的人肯定对 <code>application.yml</code> 或者 <code>application.properties</code> 配置文件很眼熟（因为个人喜好yaml方式，所以以下示例选用application.yml），因为<code>spring boot</code> 有着约定大于配置的特性，所以当其默认的配置不是我们需要的时候，就可以在工程的<code>resource</code> 目录下找到<code>application.yml</code>  进行相关配置，然后启动程序，这时<code>spring boot</code>便会按照新的配置去运行。</p>
+            <p>docker很便捷，最开始有这种感受是用一行命令去启动了mysql服务。想当初刚接触数据库那会，那么费力气的安装mysql也是服气。（捂脸哭~</p>
+<p>但是在启动mysql容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。</p>
+<a id="more"></a>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先我们准备以下目录，你也可以选择其他目录，到时候修改下命令中的挂载目录位置即可。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/docker</span><br><span class="line">mkdir /opt/docker/mysql</span><br><span class="line">mkdir /opt/docker/mysql/conf</span><br><span class="line">mkdir /opt/docker/mysql/data</span><br></pre></td></tr></table></figure>
+<p>然后创建mysql的配置文件</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /opt/docker/mysql/conf/my.conf</span><br></pre></td></tr></table></figure>
+<p>添加如下配置</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">user=mysql</span><br><span class="line">character-set-server=utf8</span><br><span class="line">default_authentication_plugin=mysql_native_password</span><br><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+<p>准备好我们便可以创建容器。</p>
+<h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><p>创建容器（就是这行命令从零启动了mysql服务）</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 --privileged=true -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.conf -v /opt/docker/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql-dev mysql:5.7</span><br></pre></td></tr></table></figure>
+<p>命令说明：</p>
+<ul>
+<li><code>-p 3306:3306</code>  将容器的 3306 端口映射到主机的 3306 端口，宿主机:容器</li>
+<li><code>-v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.conf</code>  将主机/opt/docker/mysql/conf/my.conf挂载到容器的 /etc/mysql/my.cnf</li>
+<li><code>-v /opt/docker/mysql/data:/var/lib/mysql</code>  将主机/opt/docker/mysql/data挂载到容器的 /var/lib/mysql</li>
+<li><code>-e MYSQL_ROOT_PASSWORD=123456</code>  初始化 root 用户的密码</li>
+<li><code>--name mysql-dev</code>  为容器命名</li>
+</ul>
+<p>然后通过docker ps命令就可以查看正在运行的docker服务</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES</span><br><span class="line">f80f9ed36b71        mysql:5.7           &quot;docker-entrypoint...&quot;   9 days ago          Up 26 hours         0.0.0.0:3306-&gt;3306/tcp, 33060/tcp   mysql-dev</span><br></pre></td></tr></table></figure>
+<p>用你喜欢的数据库可视化工具去连接mysql服务，successful !!!</p>
+<h2 id="使用docker启动redis"><a href="#使用docker启动redis" class="headerlink" title="使用docker启动redis"></a>使用docker启动redis</h2><p>如果我们本地没有镜像，在启动redis服务的时候，会自动尝试pull，所以我们可以通过一行命令就能启动redis服务。如果通过第二种方式启动的话，需要提前准备redis的配置文件</p>
+<p>首先我们准备以下目录，你也可以选择其他目录，到时候修改下命令中的挂载目录位置即可。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/docker/redis</span><br><span class="line">mkdir /opt/docker/mysql/conf</span><br><span class="line">mkdir /opt/docker/mysql/data</span><br></pre></td></tr></table></figure>
+<p>然后去下载一个对应版本的redis.conf，放到下面目录中</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/docker/redis/conf/redis.conf</span><br></pre></td></tr></table></figure>
+<p>然后需要修改以下几点：</p>
+<ul>
+<li>注释<code>bind 127.0.0.1</code></li>
+<li>注释掉<code>daemonize yes</code> ，或者设置为：<code>daemonize no</code></li>
+<li>如果要设置密码：<code>requirepass your-password</code></li>
+<li>设置数据持久化：<code>appendonly yes</code></li>
+</ul>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启动一个redis服务</span><br><span class="line">docker run  -d -p 6379:6379 --name redis-dev redis:4.0</span><br><span class="line"># 启动redis并挂载外部conf，需自己去官网下载redis.conf</span><br><span class="line">docker run -d -p 6379:6379 -v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis/data:/etc/redis/data --name redis-dev redis:4.0 redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<p>然后通过<code>docker ps</code>查看处于活跃状态的docker服务</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES</span><br><span class="line">7c5ed64050de        redis:4.0           &quot;docker-entrypoint...&quot;   3 minutes ago       Up 3 minutes        0.0.0.0:6379-&gt;6379/tcp              redis-dev</span><br><span class="line">f80f9ed36b71        mysql:5.7           &quot;docker-entrypoint...&quot;   13 days ago         Up 24 minutes       0.0.0.0:3306-&gt;3306/tcp, 33060/tcp   mysql-dev</span><br></pre></td></tr></table></figure>
+<h3 id="其他说明"><a href="#其他说明" class="headerlink" title="其他说明"></a>其他说明</h3><p>一般使用redis会做高可用，设置密码，挂载外部的data以及conf，做数据持久化，以下是对上述命令做一些解释以及补充，</p>
+<ul>
+<li><code>-v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf</code>：挂载配置文件</li>
+<li><code>-v /opt/docker/redis/data:/etc/redis/data</code>：映射data目录</li>
+<li><code>redis-server /etc/redis/redis.conf</code>：服务使用指定的配置文件</li>
+<li><code>--name mysql-dev</code>  为容器命名</li>
+<li><code>--privileged=true</code>：赋予容器内的root拥有真正root权限</li>
+<li><code>--requirepass &quot;pwd&quot;</code>：给redis设置密码（如果挂载了外部的配置文件并设置过了，就无需再次设置）</li>
+<li><code>--appendonly yes</code>：开启数据持久化（如果挂载了外部的配置文件并设置过了，就无需再次设置）</li>
+</ul>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/15/build-spring-boot-starter-02/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Docker/">Docker</a>
                 </div>
             </div>
         </div>
         
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
         
     </div>
 </div>
@@ -190,64 +231,26 @@
 
 
 
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/01/08/build-spring-boot-starter-01/" class="image is-7by1">
-            <img class="thumbnail" src="/images/flower.jpg" alt="构建Spring Boot Starter(一)">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-01-08T13:24:20.000Z">2019-01-08</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Spring-Boot/">Spring Boot</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 分钟 读完 (大约 1141 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/01/08/build-spring-boot-starter-01/">构建Spring Boot Starter(一)</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="Spring-Boot-Starter初印象"><a href="#Spring-Boot-Starter初印象" class="headerlink" title="Spring Boot Starter初印象"></a>Spring Boot Starter初印象</h2><p>初识Spring Boot 时，被其简化Spring应用初始搭建以及开发过程所惊艳到，基于约定优于配置的原则，我们无需从老项目中拷贝大量的xml文件来构建项目，只需利用IDEA提供的<code>Spring Initializr</code> 或者通过 <a href="https://start.spring.io/" target="_blank" rel="noopener">https://start.spring.io/</a> 就能轻松启动一个Spring应用，极为便捷。</p>
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/01/08/build-spring-boot-starter-01/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">构建Spring Boot Starter(一)</span>
+            </a>
         </div>
         
         
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/01/08/build-spring-boot-starter-01/#more">阅读更多</a>
-                </div>
-            </div>
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/09/26/docker-in-action-02/">
+                <span class="level-item">Docker(二)：部署springboot项目</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
         
     </div>
 </div>
-
-
-
-
-
-
 
 
 </div>
@@ -354,6 +357,33 @@
 </div>
     
         
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#准备工作">
+        <span class="has-mr-6">1</span>
+        <span>准备工作</span>
+        </a></li><li>
+        <a class="is-flex" href="#创建容器">
+        <span class="has-mr-6">2</span>
+        <span>创建容器</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用docker启动redis">
+        <span class="has-mr-6">3</span>
+        <span>使用docker启动redis</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#其他说明">
+        <span class="has-mr-6">3.1</span>
+        <span>其他说明</span>
+        </a></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
     
         
 
@@ -1176,7 +1206,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/favicon.png" alt="白风和" height="28">
+                    <img src="/images/favicon.png" alt="Docker(三)：使用docker启动mysql &amp; redis" height="28">
                 
                 </a>
                 <p class="is-size-7">
