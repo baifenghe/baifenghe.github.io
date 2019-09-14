@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>Java源码解读(一)：Objects - 白风和</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="其实阅读Java源码本身并没有那么难，只要我们踏出第一步，后面反而比我们想象的要简单。可能很多Java初学者并不知道从哪里下手，所以本篇博客将挑选一个源码较为简单的工具类——  java.util.Objects 作为切入点，走入Java源码的世界。">
+<meta name="keywords" content="Java,源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java源码解读(一)：Objects">
+<meta property="og:url" content="https://byference.github.io/2019/01/13/source-of-objects-in-java/index.html">
+<meta property="og:site_name" content="白风和">
+<meta property="og:description" content="其实阅读Java源码本身并没有那么难，只要我们踏出第一步，后面反而比我们想象的要简单。可能很多Java初学者并不知道从哪里下手，所以本篇博客将挑选一个源码较为简单的工具类——  java.util.Objects 作为切入点，走入Java源码的世界。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-08T12:37:41.053Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java源码解读(一)：Objects">
+<meta name="twitter:description" content="其实阅读Java源码本身并没有那么难，只要我们踏出第一步，后面反而比我们想象的要简单。可能很多Java初学者并不知道从哪里下手，所以本篇博客将挑选一个源码较为简单的工具类——  java.util.Objects 作为切入点，走入Java源码的世界。">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/androidstudio.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/favicon.png" alt="Java源码解读(一)：Objects" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/.">首页</a>
+                
+                <a class="navbar-item" href="/categories/spring-boot">Spring Boot</a>
+                
+                <a class="navbar-item" href="/categories/spring-cloud">Spring Cloud</a>
+                
+                <a class="navbar-item" href="/categories/docker">Docker</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/plant.jpg" alt="Java源码解读(一)：Objects">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-13T07:46:24.000Z">2019-01-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    14 分钟 读完 (大约 2152 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Java源码解读(一)：Objects
+            
+        </h1>
+        <div class="content">
+            <p>其实阅读Java源码本身并没有那么难，只要我们踏出第一步，后面反而比我们想象的要简单。可能很多Java初学者并不知道从哪里下手，所以本篇博客将挑选一个源码较为简单的工具类——  <code>java.util.Objects</code> 作为切入点，走入Java源码的世界。</p>
+<a id="more"></a>
+<h2 id="相关说明"><a href="#相关说明" class="headerlink" title="相关说明"></a>相关说明</h2><ul>
+<li>IDE：  <code>IDEA</code></li>
+<li>Java Version：  <code>1.8.0_161</code></li>
+</ul>
+<h2 id="Objects"><a href="#Objects" class="headerlink" title="Objects"></a>Objects</h2><p><code>Objects</code> 位于 <code>java.util</code> 包下，看名称就能知道是一个工具类，除去私有的构造方法外，只有12个静态方法供我们使用，为了方便阅读，这里我已经去掉注释：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">package</span> java.util;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">import</span> java.util.function.Supplier;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Objects</span> </span>&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Objects</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> AssertionError(<span class="hljs-string">"No java.util.Objects instances for you!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object a, Object b)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> (a == b) || (a != <span class="hljs-keyword">null</span> &amp;&amp; a.equals(b));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">deepEquals</span><span class="hljs-params">(Object a, Object b)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (a == b)</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (a == <span class="hljs-keyword">null</span> || b == <span class="hljs-keyword">null</span>)</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">        <span class="hljs-keyword">else</span></span><br><span class="line">            <span class="hljs-keyword">return</span> Arrays.deepEquals0(a, b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hashCode</span><span class="hljs-params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> o != <span class="hljs-keyword">null</span> ? o.hashCode() : <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hash</span><span class="hljs-params">(Object... values)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> Arrays.hashCode(values);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">toString</span><span class="hljs-params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> String.valueOf(o);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">toString</span><span class="hljs-params">(Object o, String nullDefault)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> (o != <span class="hljs-keyword">null</span>) ? o.toString() : nullDefault;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(T a, T b, Comparator&lt;? <span class="hljs-keyword">super</span> T&gt; c)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> (a == b) ? <span class="hljs-number">0</span> :  c.compare(a, b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">requireNonNull</span><span class="hljs-params">(T obj)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (obj == <span class="hljs-keyword">null</span>)</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException();</span><br><span class="line">        <span class="hljs-keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">requireNonNull</span><span class="hljs-params">(T obj, String message)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (obj == <span class="hljs-keyword">null</span>)</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException(message);</span><br><span class="line">        <span class="hljs-keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isNull</span><span class="hljs-params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> obj == <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">nonNull</span><span class="hljs-params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> obj != <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">requireNonNull</span><span class="hljs-params">(T obj, Supplier&lt;String&gt; messageSupplier)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (obj == <span class="hljs-keyword">null</span>)</span><br><span class="line">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException(messageSupplier.get());</span><br><span class="line">        <span class="hljs-keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看上去很熟悉，并不会很陌生对吧，其实阅读源码也没有想象的那么难。</p>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>这个工具类首先引入眼帘的便是其私有的构造方法：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Objects</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">	<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> AssertionError(<span class="hljs-string">"No java.util.Objects instances for you!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你有阅读上面的源码就会发现，<code>Objects</code> 提供的方法除此外皆为静态方法，当我们使用这些方法的时候无需显示实例化对象，而是直接通过  <code>类名.方法名()</code> 来调用其提供的方法，而私有其构造方法便是以防我们无意义创建对象浪费空间，所以这里抛出一个断言异常—— <code>&quot;No java.util.Objects instances for you!&quot;</code>。</p>
+<p>说到构造方法私有化想必大家有点耳熟，没错，我们在学习单例模式的时候便将对象的构造方法私有化，不允许用户去 <code>new</code> 该对象，而是通过我们提供的方法去获取已经创建好的实例。</p>
+<h3 id="equals"><a href="#equals" class="headerlink" title="equals"></a>equals</h3><p>接下来我们正式开始介绍 <code>Objects</code> 最为常用的方法 <code>equals</code> ：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object a, Object b)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> (a == b) || (a != <span class="hljs-keyword">null</span> &amp;&amp; a.equals(b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这也很简单对吧，我们也写过这样的代码，判断两个对象是否相等，代码就一行，翻译一下就是判断参数列表中的两个对象是否为同一个对象（引用是否指向同一内存地址），或者在参数 <code>a</code> 不为 <code>null</code> 的情况下，调用 <code>a</code> 的 <code>equals</code> 方法，而a的 equals 方法要看其具体的实现，如果是<code>Object</code>（所有对象的父类），则：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// 判断是否为同一对象，即引用是否指向同一内存地址</span></span><br><span class="line">    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">this</span> == obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="equals-of-String"><a href="#equals-of-String" class="headerlink" title="equals of String"></a>equals of String</h3><p>但这不能满足我们日常使用需求，实际开发过程中，假如 <code>Student</code> 的 <code>id</code> 相同，那么我们就可以认为 <code>equals</code> 为 <code>true</code> ，所以<code>Object</code>的<code>equals</code>方法并不能满足这种情况，所以有必要的时候大家都会重写一下<code>equals</code>方法（重写 <code>equals</code> 方法的同时最好重写一下 <code>hashCode</code> ），这里就介绍一下<code>String</code>的<code>equals</code>实现（为了方便阅读，我添加了些许注释）：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object anObject)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == anObject) &#123;</span><br><span class="line">            <span class="hljs-comment">// 判断是否为同一对象</span></span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">if</span> (anObject <span class="hljs-keyword">instanceof</span> String) &#123;</span><br><span class="line">            <span class="hljs-comment">// 如果anObject是String的实例（通俗来讲就是String是否为String类型）</span></span><br><span class="line">            <span class="hljs-comment">// 如果是，则强转为String类型（通过instanceof判断避免类型转化异常）</span></span><br><span class="line">            String anotherString = (String)anObject;</span><br><span class="line">            <span class="hljs-keyword">int</span> n = value.length;</span><br><span class="line">            <span class="hljs-keyword">if</span> (n == anotherString.value.length) &#123;</span><br><span class="line">                <span class="hljs-comment">// 其实阅读过String源码我们就明白这里的用途（String底层使用的是char[]数组）</span></span><br><span class="line">                <span class="hljs-comment">// 1、判断底层数组的长度，如果不想等说明两个字符肯定不一样，就无需继续判断</span></span><br><span class="line">                <span class="hljs-comment">// 2、如果是，一个字符一个字符去判断是否相等</span></span><br><span class="line">                <span class="hljs-keyword">char</span> v1[] = value;</span><br><span class="line">                <span class="hljs-keyword">char</span> v2[] = anotherString.value;</span><br><span class="line">                <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;</span><br><span class="line">                <span class="hljs-keyword">while</span> (n-- != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                    <span class="hljs-comment">// 从最后一个字符开始对比</span></span><br><span class="line">                    <span class="hljs-keyword">if</span> (v1[i] != v2[i])</span><br><span class="line">                        <span class="hljs-comment">// 如果同一位置的字符不相等，则字符串不相等</span></span><br><span class="line">                        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可能大家对最后一段 <code>while</code> 那里有点疑惑，其实我们完全可以用 <code>for</code> 来替代 <code>while</code> ：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> n = value.length;</span><br><span class="line">...</span><br><span class="line"><span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;</span><br><span class="line"><span class="hljs-keyword">while</span> (n-- != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (v1[i] != v2[i])</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">    i++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 上面while的写法可以用for改写</span></span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; value.length; i++) &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (v1[i] != v2[i]) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实第一次看到 <code>String</code> 的 <code>equals</code> 方法就差点笑出声，感觉这个作者写的小心翼翼（提高性能），判断字符串是否相等经历如下步骤：</p>
+<ol>
+<li>判断两个对象是否相等，对象都想相等了，我们还用判断吗？</li>
+<li>什么？对象不相等，那么只能遍历 <code>char[]</code> 一个个字符去判断了。。。不对！如果数组长度不一样那肯定也不相等，所以我们在循环前线判断一下字符串底层数组的长度吧。</li>
+<li>oops！连底层数组长度都一样，这下没办法了，老老实实去一个个判断吧，还好只要判断相同位置上的字符是否相等就行，一个 <code>for</code> 循环搞定！</li>
+</ol>
+<p>说好的阅读 <code>Objects</code> 源码，去花费大量篇章去介绍 <code>String</code> 的 <code>equsla</code> 方法了，赶紧回到正题。</p>
+<p>其实Objects.equals() 实现还是通过调用其 参数的自身实现，不过在这之前贴心的帮我们做了非空判断以及一些优化—— <code>a == b</code> ，没错，就是这个小小的 <code>a == b</code> ,为什么说是优化呢？首先是避免空指针异常，其次是通过String的equals方法我们知道，判断两个字符串是否相等的原理是一个一个去对比其底层char数组里面的元素，但是如果<code>a b</code> 是同一对象，我们判断其内存地址便可，比对底层数组里面的元素未免显得有些浪费性能了。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>篇幅有限，其他方法无法一个个扩展开来去讲，就稍微介绍一下吧：</p>
+<ol>
+<li><code>deepEquals</code> 是通过Arrays.deepEquals0() 来支持两个数组是否相等（顺序），如果对象不是数组，则返回false；</li>
+<li><code>hashCode</code> 调用了对象自身的 <code>hashCode</code> 实现</li>
+<li><code>hash</code> 调用了<code>Arrays.hashCode</code> 的实现，来计算数组的 <code>hash</code> 值</li>
+<li><code>toString</code>  是调用了 <code>String.valueOf</code> 方法,这点和<code>Object</code> 的实现不一样（<code>Object</code> 为<code>getClass().getName() + &quot;@&quot; + Integer.toHexString(hashCode())</code> ）</li>
+<li>oString(Object o, String nullDefault) 如果对象本身不为空则调用其toString方法，为空就使用其默认值nullDefault</li>
+<li><code>compare(T a, T b, Comparator&lt;? super T&gt; c)</code> 方法，如果我们了解过<code>Java8</code>的新特性就会知道这么一个词——行为参数话，就拿<code>Student</code> 对象来举例，<code>compare</code>两个<code>Student</code>，我们可以<code>compare</code>的属性有很多，比如年龄，身高，成绩等等。这样就导致一个<code>compare</code>方法我们可能要重载多次，但是通过行为参数化，我们将比较的这个行为（比较年龄？比较身高？）当作参数传入，就只用写一个<code>compare</code>方法，比如这里面的最后一个参数——<code>Comparator&lt;? super T&gt; c</code>，这是一个函数式接口，是我们进行对象比较的具体行为，可以参考我之前写的 <a href="https://byference.github.io/2018/08/11/behavioral-parameterization/">行为参数化</a> 这篇文章</li>
+<li>以及一些针对<code>null</code>封装的一些方法，自行阅读即可。</li>
+</ol>
+<p>Java的源码解读是我很早就想做的一件事，但由于自身水平所限，写出来的文章达不到我理想的效果，请多见谅。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Java/">Java</a>, <a class="has-link-grey -link" href="/tags/源码/">源码</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/02/15/build-spring-boot-starter-02/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">构建Spring Boot Starter(二)</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/01/08/build-spring-boot-starter-01/">
+                <span class="level-item">构建Spring Boot Starter(一)</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/avatar.jpg" alt="白风和">
+                    
+                    <p class="is-size-4 is-block">
+                        白风和
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        不唯众，不唯上
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>上海, 中国</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        5
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        14
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/byference">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/byference">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Facebook" href="http://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Twitter" href="http://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Dribbble" href="http://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#相关说明">
+        <span class="has-mr-6">1</span>
+        <span>相关说明</span>
+        </a></li><li>
+        <a class="is-flex" href="#Objects">
+        <span class="has-mr-6">2</span>
+        <span>Objects</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#构造方法">
+        <span class="has-mr-6">2.1</span>
+        <span>构造方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#equals">
+        <span class="has-mr-6">2.2</span>
+        <span>equals</span>
+        </a></li><li>
+        <a class="is-flex" href="#equals-of-String">
+        <span class="has-mr-6">2.3</span>
+        <span>equals of String</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他">
+        <span class="has-mr-6">2.4</span>
+        <span>其他</span>
+        </a></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Docker/">
+            <span class="level-start">
+                <span class="level-item">Docker</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring/">
+            <span class="level-start">
+                <span class="level-item">Spring</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring-Boot/">
+            <span class="level-start">
+                <span class="level-item">Spring Boot</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spring-Cloud/">
+            <span class="level-start">
+                <span class="level-item">Spring Cloud</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Annotation/" style="font-size: 13.33px;">Annotation</a> <a href="/tags/Docker/" style="font-size: 16.67px;">Docker</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/Lombok/" style="font-size: 10px;">Lombok</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Spring-Async/" style="font-size: 10px;">Spring Async</a> <a href="/tags/Spring-Boot/" style="font-size: 16.67px;">Spring Boot</a> <a href="/tags/Spring-Cloud-Gateway/" style="font-size: 10px;">Spring Cloud Gateway</a> <a href="/tags/Spring-Resty/" style="font-size: 10px;">Spring Resty</a> <a href="/tags/Stream/" style="font-size: 13.33px;">Stream</a> <a href="/tags/YAML/" style="font-size: 10px;">YAML</a> <a href="/tags/源码/" style="font-size: 16.67px;">源码</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/13/spring-async-in-action/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/mosque.jpg" alt="Spring Async 实战 &amp; 源码">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-13T07:39:22.000Z">2019-09-13</time></div>
+                    <a href="/2019/09/13/spring-async-in-action/" class="has-link-black-ter is-size-6">Spring Async 实战 &amp; 源码</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/08/spring-retry-in-action/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/deer.jpg" alt="Spring Retry 实战 &amp; 源码">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-08T08:50:22.000Z">2019-09-08</time></div>
+                    <a href="/2019/09/08/spring-retry-in-action/" class="has-link-black-ter is-size-6">Spring Retry 实战 &amp; 源码</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/26/stream-in-action-02/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/math.jpg" alt="Java8 Stream实战（二）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-26T07:22:05.000Z">2019-05-26</time></div>
+                    <a href="/2019/05/26/stream-in-action-02/" class="has-link-black-ter is-size-6">Java8 Stream实战（二）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/09/spring-cloud-gateway-01/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/panda.jpg" alt="使用Spring Cloud Gateway替换Zuul">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time></div>
+                    <a href="/2019/03/09/spring-cloud-gateway-01/" class="has-link-black-ter is-size-6">使用Spring Cloud Gateway替换Zuul</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring-Cloud/">Spring Cloud</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/15/build-spring-boot-starter-02/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/desert.jpg" alt="构建Spring Boot Starter(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-15T13:15:20.000Z">2019-02-15</time></div>
+                    <a href="/2019/02/15/build-spring-boot-starter-02/" class="has-link-black-ter is-size-6">构建Spring Boot Starter(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring-Boot/">Spring Boot</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Annotation/">
+                        <span class="level-start">
+                            <span class="level-item">Annotation</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Docker/">
+                        <span class="level-start">
+                            <span class="level-item">Docker</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Java/">
+                        <span class="level-start">
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">5</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Lambda/">
+                        <span class="level-start">
+                            <span class="level-item">Lambda</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Lombok/">
+                        <span class="level-start">
+                            <span class="level-item">Lombok</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/MySQL/">
+                        <span class="level-start">
+                            <span class="level-item">MySQL</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Redis/">
+                        <span class="level-start">
+                            <span class="level-item">Redis</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spring-Async/">
+                        <span class="level-start">
+                            <span class="level-item">Spring Async</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spring-Boot/">
+                        <span class="level-start">
+                            <span class="level-item">Spring Boot</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spring-Cloud-Gateway/">
+                        <span class="level-start">
+                            <span class="level-item">Spring Cloud Gateway</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spring-Resty/">
+                        <span class="level-start">
+                            <span class="level-item">Spring Resty</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Stream/">
+                        <span class="level-start">
+                            <span class="level-item">Stream</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/YAML/">
+                        <span class="level-start">
+                            <span class="level-item">YAML</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/源码/">
+                        <span class="level-start">
+                            <span class="level-item">源码</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/13/spring-async-in-action/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/mosque.jpg" alt="Spring Async 实战 &amp; 源码">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-13T07:39:22.000Z">2019-09-13</time></div>
+                    <a href="/2019/09/13/spring-async-in-action/" class="has-link-black-ter is-size-6">Spring Async 实战 &amp; 源码</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/09/08/spring-retry-in-action/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/deer.jpg" alt="Spring Retry 实战 &amp; 源码">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-08T08:50:22.000Z">2019-09-08</time></div>
+                    <a href="/2019/09/08/spring-retry-in-action/" class="has-link-black-ter is-size-6">Spring Retry 实战 &amp; 源码</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/26/stream-in-action-02/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/math.jpg" alt="Java8 Stream实战（二）">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-26T07:22:05.000Z">2019-05-26</time></div>
+                    <a href="/2019/05/26/stream-in-action-02/" class="has-link-black-ter is-size-6">Java8 Stream实战（二）</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/09/spring-cloud-gateway-01/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/panda.jpg" alt="使用Spring Cloud Gateway替换Zuul">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time></div>
+                    <a href="/2019/03/09/spring-cloud-gateway-01/" class="has-link-black-ter is-size-6">使用Spring Cloud Gateway替换Zuul</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring-Cloud/">Spring Cloud</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/02/15/build-spring-boot-starter-02/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/desert.jpg" alt="构建Spring Boot Starter(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-15T13:15:20.000Z">2019-02-15</time></div>
+                    <a href="/2019/02/15/build-spring-boot-starter-02/" class="has-link-black-ter is-size-6">构建Spring Boot Starter(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spring-Boot/">Spring Boot</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2018/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Annotation/">
+                        <span class="level-start">
+                            <span class="level-item">Annotation</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Docker/">
+                        <span class="level-start">
+                            <span class="level-item">Docker</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Java/">
+                        <span class="level-start">
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">5</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Lambda/">
+                        <span class="level-start">
+                            <span class="level-item">Lambda</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Lombok/">
+                        <span class="level-start">
+                            <span class="level-item">Lombok</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/MySQL/">
+                        <span class="level-start">
+                            <span class="level-item">MySQL</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Redis/">
+                        <span class="level-start">
+                            <span class="level-item">Redis</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spring-Async/">
+                        <span class="level-start">
+                            <span class="level-item">Spring Async</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spring-Boot/">
+                        <span class="level-start">
+                            <span class="level-item">Spring Boot</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spring-Cloud-Gateway/">
+                        <span class="level-start">
+                            <span class="level-item">Spring Cloud Gateway</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Spring-Resty/">
+                        <span class="level-start">
+                            <span class="level-item">Spring Resty</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Stream/">
+                        <span class="level-start">
+                            <span class="level-item">Stream</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/YAML/">
+                        <span class="level-start">
+                            <span class="level-item">YAML</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/源码/">
+                        <span class="level-start">
+                            <span class="level-item">源码</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/favicon.png" alt="Java源码解读(一)：Objects" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 byference&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+                <!-- 添加脚本 -->
+                <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+                Total <span id="busuanzi_value_site_pv"></span> views. 
+                您是第<span id="busuanzi_value_site_uv"></span>个小伙伴 
+                <span id="busuanzi_value_page_pv"></span> Hits
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="GitHub" href="https://github.com/byference">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
