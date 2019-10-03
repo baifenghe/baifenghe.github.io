@@ -2,18 +2,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>标签: Spring Cloud Gateway - 白风和</title>
+<title>Spring Extensions (一) Bean的动态注册 - 白风和</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="白风和">
-<meta property="og:url" content="https://byference.github.io/tags/Spring-Cloud-Gateway/index.html">
+    <meta name="description" content="前言在认识BeanDefinitionRegistryPostProcessor  和 ClassPathBeanDefinitionScanner 之前，需要说明一下为什么会有这篇文章？动态注册Bean ？日常开发中我们有太多方式来定义自己的Bean实例 到Spring容器中：">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Extensions (一) Bean的动态注册">
+<meta property="og:url" content="https://byference.github.io/2019/10/03/spring-extensions-01/index.html">
 <meta property="og:site_name" content="白风和">
+<meta property="og:description" content="前言在认识BeanDefinitionRegistryPostProcessor  和 ClassPathBeanDefinitionScanner 之前，需要说明一下为什么会有这篇文章？动态注册Bean ？日常开发中我们有太多方式来定义自己的Bean实例 到Spring容器中：">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-03T14:34:41.929Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="白风和">
+<meta name="twitter:title" content="Spring Extensions (一) Bean的动态注册">
+<meta name="twitter:description" content="前言在认识BeanDefinitionRegistryPostProcessor  和 ClassPathBeanDefinitionScanner 之前，需要说明一下为什么会有这篇文章？动态注册Bean ？日常开发中我们有太多方式来定义自己的Bean实例 到Spring容器中：">
 
 
 
@@ -83,7 +88,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/favicon.png" alt="白风和" height="28">
+                <img src="/images/favicon.png" alt="Spring Extensions (一) Bean的动态注册" height="28">
             
             </a>
         </div>
@@ -108,6 +113,10 @@
             <div class="navbar-end">
                 
                 
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
                 
                 <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
@@ -122,39 +131,28 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">Spring Cloud Gateway</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
     
     <div class="card-image">
-        <a href="/2019/03/09/spring-cloud-gateway-01/" class="image is-7by1">
-            <img class="thumbnail" src="/images/panda.jpg" alt="使用Spring Cloud Gateway替换Zuul">
-        </a>
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/spring.png" alt="Spring Extensions (一) Bean的动态注册">
+        </span>
     </div>
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-09T14:55:20.000Z">2019-03-09</time>
+                <time class="level-item has-text-grey" datetime="2019-10-03T06:57:08.000Z">2019-10-03</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Spring-Cloud/">Spring Cloud</a>
+                <a class="has-link-grey -link" href="/categories/Spring/">Spring</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 988 个字)
+                    9 分钟 读完 (大约 1352 个字)
                 </span>
                 
             </div>
@@ -162,22 +160,63 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/03/09/spring-cloud-gateway-01/">使用Spring Cloud Gateway替换Zuul</a>
+                Spring Extensions (一) Bean的动态注册
             
         </h1>
         <div class="content">
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着 Spring Cloud Netflix 家族宣布进入维护阶段，我也准备将 <a href="https://github.com/byference/spring-cloud-in-action" target="_blank" rel="noopener">spinrg-cloud-in-action</a> 进行相应的调整，计划使用 <code>Spring Cloud Gateway</code> 替代 <code>Zuul</code>，使用 <code>Resilience4j</code> 替换目前使用的 <code>Hystrix</code> ，这篇博客记录下整合 <code>Spring Cloud Gateway</code> 的一些过程。</p>
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在认识<code>BeanDefinitionRegistryPostProcessor</code>  和 <code>ClassPathBeanDefinitionScanner</code> 之前，需要说明一下为什么会有这篇文章？动态注册<code>Bean</code> ？日常开发中我们有太多方式来定义自己的<code>Bean</code>实例 到<code>Spring</code>容器中：</p>
+<a id="more"></a>
+<ol>
+<li>通过xml的方式配置注入</li>
+<li>通过<code>@Component</code> 以及其派生注解注入</li>
+<li>通过<code>@Bean</code>注入</li>
+<li>…</li>
+</ol>
+<p>那么为什么还需要去动态注册<code>Bean</code> ？其实就算需要动态注册<code>Bean</code>，我们完全可以不需要使用上诉方式，比如使用 <code>@Conditional</code> 系列条件注解（当符合条件的时候<code>Bean</code>才会被注册），<code>@Profile</code> 在确定的环境下才会被注册（ <code>@Conditional</code> 的一种）等等，我们就不往下展开了。</p>
+<p>其实写这篇文章主要是因为最近在看 <code>Mybatis</code> 整合 <code>Spring</code> （<code>mybatis-spring</code> 模块）,了解<code>Mapper</code> 是如何被作为<code>Bean</code>被注册到<code>Ioc</code>容器中后的一些感想，以博客的方式呈现出来。</p>
+<p>虽然标题为<code>Spring容器之Bean的动态注册</code> ，但是日常开发过程中我们完全可以使用 <code>@Conditional</code> 家族的条件注解，足以满足绝大多数场景。以下内容纯属记录并实践模拟<code>Mybatis</code> 整合 <code>Spring</code>的过程，在此特别说明一下。</p>
+<blockquote>
+<p>接下来的内容主要是简化 <code>Mybatis</code> 整合 <code>Spring</code> 的例子来介绍<code>Bean</code>的动态注册</p>
+</blockquote>
+<h2 id="引出问题"><a href="#引出问题" class="headerlink" title="引出问题"></a>引出问题</h2><p>我们先通过 <a href="https://mybatis.org/mybatis-3/getting-started.html" target="_blank" rel="noopener">Mybatis 官网</a> 上的一段代码回顾其单独使用时步骤：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String resource = <span class="hljs-string">"org/mybatis/example/mybatis-config.xml"</span>;</span><br><span class="line">InputStream inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">SqlSessionFactory sqlSessionFactory = <span class="hljs-keyword">new</span> SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line"><span class="hljs-keyword">try</span> (SqlSession session = sqlSessionFactory.openSession()) &#123;</span><br><span class="line">  BlogMapper mapper = session.getMapper(BlogMapper.class);</span><br><span class="line">  Blog blog = mapper.selectBlog(<span class="hljs-number">101</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用过<code>Mybatis</code>的同学应该都知道，这里的<code>BlogMapper</code> 这是一个接口，并且我们没有定义其实现类，当我们执行<code>BlogMapper mapper = session.getMapper(BlogMapper.class)</code> 的时候，给我们返回的其实是一个动态代理类，具体细节这里先不做讲解，有兴趣可以阅读 <a href="https://github.com/byference/tiny-frameworks" target="_blank" rel="noopener">tiny-frameworks</a> 中的<code>tiny-mybatis</code> 模块。</p>
+<p>当我们整合<code>Spring</code>后，上诉的对象管理可以移交给<code>Spring</code>，我们只需注入所需<code>Mapper</code> ：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Service</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BlogService</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Autowired</span></span><br><span class="line">    <span class="hljs-keyword">private</span> BlogMapper mapper;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Blog <span class="hljs-title">selectBlog</span><span class="hljs-params">(Integer blogId)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> mapper.selectBlog(<span class="hljs-number">101</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们知道注入的<code>BlogMapper</code>实际上是一个动态代理类，我们能通过<code>@Autowired</code> 的方法注入进来说明整合<code>Spring</code>后，<code>Mapper</code> 被注册到 <code>Spring</code>容器中（具体代码实现可以查阅<code>mybatis-spring</code>），接下来将通过一个小<code>Demo</code>来简化<code>mybatis-spring</code>中<code>Mapper</code>的动态注册的过程。</p>
+<h2 id="Mapper-动态注册"><a href="#Mapper-动态注册" class="headerlink" title="Mapper 动态注册"></a>Mapper 动态注册</h2><h3 id="定义Mapper"><a href="#定义Mapper" class="headerlink" title="定义Mapper"></a>定义Mapper</h3><p>首先我们需要提供一个测试接口 <code>TestMapper</code> </p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">TestMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function">String <span class="hljs-title">name</span><span class="hljs-params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function">String <span class="hljs-title">echo</span><span class="hljs-params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="提供FactoryBean"><a href="#提供FactoryBean" class="headerlink" title="提供FactoryBean"></a>提供FactoryBean</h3><p>因为 <code>BeanDefinition</code> 需要设置一个<code>BeanClass</code>, 所以这里我们需要额外提供一个<code>FactoryBean</code>，用于动态生成其代理类，代理实现逻辑如下：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Slf</span>4j</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TinyMapperFactoryBean</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">FactoryBean</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> Class&lt;?&gt; interfaceClass;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TinyMapperFactoryBean</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TinyMapperFactoryBean</span><span class="hljs-params">(Class&lt;?&gt; interfaceClass)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.interfaceClass = interfaceClass;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">getObject</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), <span class="hljs-keyword">new</span> Class&lt;?&gt;[]&#123;interfaceClass&#125;, (proxy, method, args) -&gt; &#123;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (method.getName().equals(<span class="hljs-string">"toString"</span>)) &#123;</span><br><span class="line">                <span class="hljs-keyword">return</span> interfaceClass.getSimpleName();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-comment">// 如果返回值为 String 则返回方法名称</span></span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-string">"proxy: "</span> + method.getName();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-keyword">public</span> Class&lt;?&gt; getObjectType() &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> interfaceClass;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="自定义Scanner"><a href="#自定义Scanner" class="headerlink" title="自定义Scanner"></a>自定义Scanner</h3><p>我们可以通过 <code>BeanDefinitionRegistry#registerBeanDefinition</code> 来注册<code>Bean</code>， 这里需要提供相关的 <code>BeanDefinition</code>。我们也可以通过 <code>ClassPathBeanDefinitionScanner</code> 来实现自动扫描注册，通过继承<code>ClassPathBeanDefinitionScanner</code> 来扩展自己的 <code>Scanner</code>，如下</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Slf</span>4j</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TinyMapperScanner</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ClassPathBeanDefinitionScanner</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> Class&lt;? extends Annotation&gt; annotationClass;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TinyMapperScanner</span><span class="hljs-params">(BeanDefinitionRegistry registry)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>(registry);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAnnotationClass</span><span class="hljs-params">(Class&lt;? extends Annotation&gt; annotationClass)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.annotationClass = annotationClass;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> Set&lt;BeanDefinitionHolder&gt; <span class="hljs-title">doScan</span><span class="hljs-params">(String... basePackages)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Set&lt;BeanDefinitionHolder&gt; beanDefinitions = <span class="hljs-keyword">super</span>.doScan(basePackages);</span><br><span class="line">        <span class="hljs-keyword">if</span> (beanDefinitions.isEmpty()) &#123;</span><br><span class="line">            log.warn(<span class="hljs-string">"No target mapper was found in '"</span> + Arrays.toString(basePackages) + <span class="hljs-string">"' package. Please check your configuration."</span>);</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            processBeanDefinitions(beanDefinitions);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> beanDefinitions;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">processBeanDefinitions</span><span class="hljs-params">(Set&lt;BeanDefinitionHolder&gt; beanDefinitions)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        beanDefinitions.forEach(holder -&gt; &#123;</span><br><span class="line">            GenericBeanDefinition beanDefinition = (GenericBeanDefinition) holder.getBeanDefinition();</span><br><span class="line">            beanDefinition.getConstructorArgumentValues().addGenericArgumentValue(beanDefinition.getBeanClassName());</span><br><span class="line">            beanDefinition.setBeanClass(TinyMapperFactoryBean.class);</span><br><span class="line">            beanDefinition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);</span><br><span class="line">            log.info(<span class="hljs-string">"==&gt; &#123;&#125; process finished"</span>, beanDefinition.getBeanClassName());</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * copy form &#123;<span class="hljs-doctag">@code</span> org.mybatis.spring.mapper.ClassPathMapperScanner#registerFilters&#125;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registerFilters</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">boolean</span> acceptAllInterfaces = <span class="hljs-keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// if specified, use the given annotation and / or marker interface</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.annotationClass != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            addIncludeFilter(<span class="hljs-keyword">new</span> AnnotationTypeFilter(<span class="hljs-keyword">this</span>.annotationClass));</span><br><span class="line">            acceptAllInterfaces = <span class="hljs-keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> (acceptAllInterfaces) &#123;</span><br><span class="line">            <span class="hljs-comment">// default include filter that accepts all classes</span></span><br><span class="line">            addIncludeFilter((metadataReader, metadataReaderFactory) -&gt; <span class="hljs-keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// exclude package-info.java</span></span><br><span class="line">        addExcludeFilter((metadataReader, metadataReaderFactory) -&gt; &#123;</span><br><span class="line">            String className = metadataReader.getClassMetadata().getClassName();</span><br><span class="line">            <span class="hljs-keyword">return</span> className.endsWith(<span class="hljs-string">"package-info"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment">     * &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="hljs-comment">     */</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isCandidateComponent</span><span class="hljs-params">(AnnotatedBeanDefinition beanDefinition)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> beanDefinition.getMetadata().isInterface() &amp;&amp; beanDefinition.getMetadata().isIndependent();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里说需要说明一下:</p>
+<ol>
+<li>通过 <code>TinyMapperScanner#registerFilters</code>, 我可以注册一些过滤器，上诉实现是复制于<code>mybatis</code> 的 <code>ClassPathMapperScanner#registerFilters</code> 。</li>
+<li>当调用 <code>ClassPathBeanDefinitionScanner#doScan</code>  的时候，默认的 <code>ClassPathScanningCandidateComponentProvider#isCandidateComponent(AnnotatedBeanDefinition)</code>会过滤掉接口，我们需要重写这个方法的实现，以确保返回<code>Mapper</code>接口的 <code>BeanDefinition</code> 。</li>
+</ol>
+<h3 id="BeanDefinitionRegistry"><a href="#BeanDefinitionRegistry" class="headerlink" title="BeanDefinitionRegistry"></a>BeanDefinitionRegistry</h3><p>因为我们选择通过 <code>ClassPathBeanDefinitionScanner</code> 来实现自动扫描注册，所以无需使用 <code>BeanDefinitionRegistry#registerBeanDefinition</code> ，但是创建<code>ClassPathBeanDefinitionScanner</code> 对象需要 <code>BeanDefinitionRegistry</code> ，通过实现 <code>BeanDefinitionRegistryPostProcessor</code> 接口获取：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Component</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TinyMapperScannerConfigurer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BeanDefinitionRegistryPostProcessor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postProcessBeanDefinitionRegistry</span><span class="hljs-params">(BeanDefinitionRegistry registry)</span> <span class="hljs-keyword">throws</span> BeansException </span>&#123;</span><br><span class="line"></span><br><span class="line">        TinyMapperScanner scanner = <span class="hljs-keyword">new</span> TinyMapperScanner(registry);</span><br><span class="line">        scanner.setAnnotationClass(<span class="hljs-keyword">null</span>);</span><br><span class="line">        scanner.registerFilters();</span><br><span class="line">        scanner.doScan(<span class="hljs-string">"com.github.byference.extensions.registrar.mapper"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postProcessBeanFactory</span><span class="hljs-params">(ConfigurableListableBeanFactory beanFactory)</span> <span class="hljs-keyword">throws</span> BeansException </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>最后我们可以写一个单元测试：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="hljs-meta">@SpringBootTest</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RegistrarApplicationTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-meta">@Autowired</span></span><br><span class="line">	<span class="hljs-keyword">private</span> TestMapper testMapper;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-meta">@Test</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMapperTest</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">		<span class="hljs-keyword">assert</span> <span class="hljs-string">"proxy: name"</span>.equals(testMapper.name());</span><br><span class="line">		<span class="hljs-keyword">assert</span> <span class="hljs-string">"proxy: echo"</span>.equals(testMapper.echo());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过了解<code>Bean</code>的动态注册，能进一步的了解<code>Spring</code>的一些运行机制，以及其他框架整合<code>Spring</code>的一些实现方式，做到举一反三——如各大 <code>RPC</code> 框架整合<code>Spring</code>的过程~</p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/03/09/spring-cloud-gateway-01/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Spring/">Spring</a>
                 </div>
             </div>
         </div>
         
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
         
     </div>
 </div>
@@ -186,7 +225,19 @@
 
 
 
-
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/09/16/stream-in-action-03/">
+                <span class="level-item">Java8 Stream实战（三）</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
 
 
 </div>
@@ -293,6 +344,53 @@
 </div>
     
         
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#前言">
+        <span class="has-mr-6">1</span>
+        <span>前言</span>
+        </a></li><li>
+        <a class="is-flex" href="#引出问题">
+        <span class="has-mr-6">2</span>
+        <span>引出问题</span>
+        </a></li><li>
+        <a class="is-flex" href="#Mapper-动态注册">
+        <span class="has-mr-6">3</span>
+        <span>Mapper 动态注册</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#定义Mapper">
+        <span class="has-mr-6">3.1</span>
+        <span>定义Mapper</span>
+        </a></li><li>
+        <a class="is-flex" href="#提供FactoryBean">
+        <span class="has-mr-6">3.2</span>
+        <span>提供FactoryBean</span>
+        </a></li><li>
+        <a class="is-flex" href="#自定义Scanner">
+        <span class="has-mr-6">3.3</span>
+        <span>自定义Scanner</span>
+        </a></li><li>
+        <a class="is-flex" href="#BeanDefinitionRegistry">
+        <span class="has-mr-6">3.4</span>
+        <span>BeanDefinitionRegistry</span>
+        </a></li><li>
+        <a class="is-flex" href="#测试">
+        <span class="has-mr-6">3.5</span>
+        <span>测试</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#总结">
+        <span class="has-mr-6">4</span>
+        <span>总结</span>
+        </a></li></ul>
+        </div>
+    </div>
+</div>
+
     
         
 
@@ -1159,7 +1257,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/favicon.png" alt="白风和" height="28">
+                    <img src="/images/favicon.png" alt="Spring Extensions (一) Bean的动态注册" height="28">
                 
                 </a>
                 <p class="is-size-7">
