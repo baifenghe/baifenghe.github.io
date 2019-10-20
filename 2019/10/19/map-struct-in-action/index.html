@@ -2,23 +2,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>MapStruct - 白风和</title>
+<title>MapStruct 实战 - 白风和</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="前言MapStruct 是一个Java 注解处理器 ，用于生成类型安全的bean映射类。 您要做的就是定义一个映射接口，声明映射方法。在编译期间，MapStruct 将生成此接口的实现。此实现使用简单的 Java 方法调用（getter setter…）在源对象和目标对象之间进行属性映射，没有使用反射或类似的内容。">
+    <meta name="description" content="前言MapStruct 是一个Java 注解处理器 ，用于生成类型安全的bean映射类。 我们需要做的就是定义一个映射接口，声明映射方法。在编译期间，MapStruct 将生成此接口的实现类。此实现使用简单的 Java 方法调用（getter setter…）在源对象和目标对象之间进行属性映射，没有使用反射或类似的内容。">
 <meta name="keywords" content="MapStruct">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MapStruct">
-<meta property="og:url" content="https://byference.github.io/2019/10/19/map-struct/index.html">
+<meta property="og:title" content="MapStruct 实战">
+<meta property="og:url" content="https://byference.github.io/2019/10/19/map-struct-in-action/index.html">
 <meta property="og:site_name" content="白风和">
-<meta property="og:description" content="前言MapStruct 是一个Java 注解处理器 ，用于生成类型安全的bean映射类。 您要做的就是定义一个映射接口，声明映射方法。在编译期间，MapStruct 将生成此接口的实现。此实现使用简单的 Java 方法调用（getter setter…）在源对象和目标对象之间进行属性映射，没有使用反射或类似的内容。">
+<meta property="og:description" content="前言MapStruct 是一个Java 注解处理器 ，用于生成类型安全的bean映射类。 我们需要做的就是定义一个映射接口，声明映射方法。在编译期间，MapStruct 将生成此接口的实现类。此实现使用简单的 Java 方法调用（getter setter…）在源对象和目标对象之间进行属性映射，没有使用反射或类似的内容。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-20T09:52:27.759Z">
+<meta property="og:updated_time" content="2019-10-20T09:57:41.536Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MapStruct">
-<meta name="twitter:description" content="前言MapStruct 是一个Java 注解处理器 ，用于生成类型安全的bean映射类。 您要做的就是定义一个映射接口，声明映射方法。在编译期间，MapStruct 将生成此接口的实现。此实现使用简单的 Java 方法调用（getter setter…）在源对象和目标对象之间进行属性映射，没有使用反射或类似的内容。">
+<meta name="twitter:title" content="MapStruct 实战">
+<meta name="twitter:description" content="前言MapStruct 是一个Java 注解处理器 ，用于生成类型安全的bean映射类。 我们需要做的就是定义一个映射接口，声明映射方法。在编译期间，MapStruct 将生成此接口的实现类。此实现使用简单的 Java 方法调用（getter setter…）在源对象和目标对象之间进行属性映射，没有使用反射或类似的内容。">
 
 
 
@@ -88,7 +88,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/favicon.png" alt="MapStruct" height="28">
+                <img src="/images/favicon.png" alt="MapStruct 实战" height="28">
             
             </a>
         </div>
@@ -134,7 +134,7 @@
     
     <div class="card-image">
         <span class="image is-7by1">
-            <img class="thumbnail" src="/images/image0002.jpg" alt="MapStruct">
+            <img class="thumbnail" src="/images/image0002.jpg" alt="MapStruct 实战">
         </span>
     </div>
     
@@ -152,7 +152,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1307 个字)
+                    9 分钟 读完 (大约 1302 个字)
                 </span>
                 
             </div>
@@ -160,19 +160,19 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                MapStruct
+                MapStruct 实战
             
         </h1>
         <div class="content">
             <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>MapStruct</code> 是一个Java <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/apt/index.html" target="_blank" rel="noopener">注解处理器</a> ，用于生成类型安全的<code>bean</code>映射类。</p>
-<p>您要做的就是定义一个映射接口，声明映射方法。在编译期间，<code>MapStruct</code> 将生成此接口的实现。此实现使用简单的 Java 方法调用（<code>getter</code> <code>setter</code>…）在源对象和目标对象之间进行属性映射，没有使用反射或类似的内容。</p>
+<p>我们需要做的就是定义一个映射接口，声明映射方法。在编译期间，<code>MapStruct</code> 将生成此接口的实现类。此实现使用简单的 Java 方法调用（<code>getter</code> <code>setter</code>…）在源对象和目标对象之间进行属性映射，没有使用反射或类似的内容。</p>
 <a id="more"></a>
-<p>与手动编写属性映射代码相比，<code>MapStruct</code> 通过生成冗长且易于出错的代码来节省时间。按照约定优于配置，<code>MapStruct</code> 使用合理的默认值，前提是在用户没有自定义配置或实现特殊行为。</p>
+<p>与手动编写属性映射代码相比，<code>MapStruct</code> 通过生成冗长且易于出错的代码来节省时间。按照约定优于配置，<code>MapStruct</code> 使用合理的默认值（用户没有自定义配置或实现特殊行为）。</p>
 <p>与动态映射框架相比，<code>MapStruct</code> 具有以下优点：</p>
 <ul>
 <li>通过使用普通方法调用而不是反射来快速执行</li>
 <li>编译时类型安全性：只能映射彼此映射的对象和属性（不能将订单实体意外映射到客户DTO等）。</li>
-<li>编译期间清晰的错误报告：<ul>
+<li>编译期错误报告：<ul>
 <li>映射不完整（并非所有目标属性都被映射）</li>
 <li>映射不正确（找不到正确的映射方法或类型转换）</li>
 </ul>
@@ -217,7 +217,7 @@
 <li>日期格式化： <code>@Mapping(target = &quot;registryDate&quot;, dateFormat = &quot;dd.MM.yyyy&quot;)</code></li>
 <li>数值格式化： <code>@Mapping(source = &quot;price&quot;, numberFormat = &quot;$#.00&quot;)</code></li>
 <li>表达式映射： <code>@Mapping(target = &quot;timeAndFormat&quot;, expression = &quot;java(new org.sample.TimeAndFormat( s.getTime(), s.getFormat())</code></li>
-<li>默认表达式： <code>@Mapping(target = &quot;timeAndFormat&quot;, expression = &quot;java( new TimeAndFormat(s.getTime(), s.getFormat()))&quot;)</code></li>
+<li>默认表达式： <code>@Mapping(target=&quot;id&quot;, source=&quot;sourceId&quot;, defaultExpression = &quot;java( UUID.randomUUID().toString() )&quot;)</code></li>
 <li>…</li>
 </ul>
 <p>其他用法，如有兴趣，可移步 <a href="https://mapstruct.org/documentation/stable/reference/html/" target="_blank" rel="noopener">官方文档</a> 。</p>
@@ -509,16 +509,16 @@
         
         <article class="media">
             
-            <a href="/2019/10/19/map-struct/" class="media-left">
+            <a href="/2019/10/19/map-struct-in-action/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/image0002.jpg" alt="MapStruct">
+                    <img class="thumbnail" src="/images/image0002.jpg" alt="MapStruct 实战">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-19T06:21:20.000Z">2019-10-19</time></div>
-                    <a href="/2019/10/19/map-struct/" class="has-link-black-ter is-size-6">MapStruct</a>
+                    <a href="/2019/10/19/map-struct-in-action/" class="has-link-black-ter is-size-6">MapStruct 实战</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/杂记/">杂记</a>
                     </p>
@@ -916,16 +916,16 @@
         
         <article class="media">
             
-            <a href="/2019/10/19/map-struct/" class="media-left">
+            <a href="/2019/10/19/map-struct-in-action/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/image0002.jpg" alt="MapStruct">
+                    <img class="thumbnail" src="/images/image0002.jpg" alt="MapStruct 实战">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-19T06:21:20.000Z">2019-10-19</time></div>
-                    <a href="/2019/10/19/map-struct/" class="has-link-black-ter is-size-6">MapStruct</a>
+                    <a href="/2019/10/19/map-struct-in-action/" class="has-link-black-ter is-size-6">MapStruct 实战</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/杂记/">杂记</a>
                     </p>
@@ -1315,7 +1315,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/favicon.png" alt="MapStruct" height="28">
+                    <img src="/images/favicon.png" alt="MapStruct 实战" height="28">
                 
                 </a>
                 <p class="is-size-7">
