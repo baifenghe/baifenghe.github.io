@@ -7,18 +7,18 @@
 
 
 
-    <meta name="description" content="docker很便捷，最开始有这种感受是用一行命令去启动了mysql服务。想当初刚接触数据库那会，那么费力气的安装mysql也是服气。（捂脸哭~ 但是在启动mysql容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。">
+    <meta name="description" content="Docker 很便捷，最开始有这种感受是用一行命令去启动了 MySQL服务。想当初刚接触数据库那会，那么费力气的安装MySQL也是服气。（捂脸哭~ 但是在启动MySQL容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。">
 <meta name="keywords" content="Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker(三)：使用docker启动mysql &amp; redis">
 <meta property="og:url" content="https://byference.github.io/2018/10/01/docker-in-action-03/index.html">
 <meta property="og:site_name" content="白风和">
-<meta property="og:description" content="docker很便捷，最开始有这种感受是用一行命令去启动了mysql服务。想当初刚接触数据库那会，那么费力气的安装mysql也是服气。（捂脸哭~ 但是在启动mysql容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。">
+<meta property="og:description" content="Docker 很便捷，最开始有这种感受是用一行命令去启动了 MySQL服务。想当初刚接触数据库那会，那么费力气的安装MySQL也是服气。（捂脸哭~ 但是在启动MySQL容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-14T00:30:32.405Z">
+<meta property="og:updated_time" content="2019-10-26T12:31:55.849Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker(三)：使用docker启动mysql &amp; redis">
-<meta name="twitter:description" content="docker很便捷，最开始有这种感受是用一行命令去启动了mysql服务。想当初刚接触数据库那会，那么费力气的安装mysql也是服气。（捂脸哭~ 但是在启动mysql容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。">
+<meta name="twitter:description" content="Docker 很便捷，最开始有这种感受是用一行命令去启动了 MySQL服务。想当初刚接触数据库那会，那么费力气的安装MySQL也是服气。（捂脸哭~ 但是在启动MySQL容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。">
 
 
 
@@ -146,7 +146,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分钟 读完 (大约 1020 个字)
+                    7 分钟 读完 (大约 1013 个字)
                 </span>
                 
             </div>
@@ -158,19 +158,19 @@
             
         </h1>
         <div class="content">
-            <p>docker很便捷，最开始有这种感受是用一行命令去启动了mysql服务。想当初刚接触数据库那会，那么费力气的安装mysql也是服气。（捂脸哭~</p>
-<p>但是在启动mysql容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。</p>
+            <p>Docker 很便捷，最开始有这种感受是用一行命令去启动了 <code>MySQL</code>服务。想当初刚接触数据库那会，那么费力气的安装<code>MySQL</code>也是服气。（捂脸哭~</p>
+<p>但是在启动<code>MySQL</code>容器之前，我们需要做些准备工作，这是因为数据库本身的特殊性，我们需要将容器的数据映射到主机的目录中，这样就不担心手滑将容器删除导致数据丢失了。</p>
 <a id="more"></a>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>首先我们准备以下目录，你也可以选择其他目录，到时候修改下命令中的挂载目录位置即可。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/docker</span><br><span class="line">mkdir /opt/docker/mysql</span><br><span class="line">mkdir /opt/docker/mysql/conf</span><br><span class="line">mkdir /opt/docker/mysql/data</span><br></pre></td></tr></table></figure>
-<p>然后创建mysql的配置文件</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /opt/docker/mysql/&#123;conf,data&#125;</span><br></pre></td></tr></table></figure>
+<p>然后创建MySQL的配置文件</p>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /opt/docker/mysql/conf/my.conf</span><br></pre></td></tr></table></figure>
 <p>添加如下配置</p>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">user=mysql</span><br><span class="line">character-set-server=utf8</span><br><span class="line">default_authentication_plugin=mysql_native_password</span><br><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
 <p>准备好我们便可以创建容器。</p>
-<h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><p>创建容器（就是这行命令从零启动了mysql服务）</p>
+<h2 id="创建-MySQL"><a href="#创建-MySQL" class="headerlink" title="创建 MySQL"></a>创建 MySQL</h2><p>创建容器（就是这行命令从零启动了<code>MySQL</code>服务）</p>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3306:3306 --privileged=true -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.conf -v /opt/docker/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql-dev mysql:5.7</span><br></pre></td></tr></table></figure>
-<p>命令说明：</p>
+<p><strong>补充说明</strong>：</p>
 <ul>
 <li><code>-p 3306:3306</code>  将容器的 3306 端口映射到主机的 3306 端口，宿主机:容器</li>
 <li><code>-v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.conf</code>  将主机/opt/docker/mysql/conf/my.conf挂载到容器的 /etc/mysql/my.cnf</li>
@@ -178,13 +178,13 @@
 <li><code>-e MYSQL_ROOT_PASSWORD=123456</code>  初始化 root 用户的密码</li>
 <li><code>--name mysql-dev</code>  为容器命名</li>
 </ul>
-<p>然后通过docker ps命令就可以查看正在运行的docker服务</p>
+<p>然后通过<code>docker ps</code>命令就可以查看正在运行的docker服务</p>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES</span><br><span class="line">f80f9ed36b71        mysql:5.7           &quot;docker-entrypoint...&quot;   9 days ago          Up 26 hours         0.0.0.0:3306-&gt;3306/tcp, 33060/tcp   mysql-dev</span><br></pre></td></tr></table></figure>
-<p>用你喜欢的数据库可视化工具去连接mysql服务，successful !!!</p>
-<h2 id="使用docker启动redis"><a href="#使用docker启动redis" class="headerlink" title="使用docker启动redis"></a>使用docker启动redis</h2><p>如果我们本地没有镜像，在启动redis服务的时候，会自动尝试pull，所以我们可以通过一行命令就能启动redis服务。如果通过第二种方式启动的话，需要提前准备redis的配置文件</p>
+<p>用你喜欢的数据库可视化工具去连接<code>MySQL</code>服务，successful !!!</p>
+<h2 id="创建-Redis"><a href="#创建-Redis" class="headerlink" title="创建 Redis"></a>创建 Redis</h2><p>如果我们本地没有镜像，在启动<code>Redis</code>服务的时候，会自动尝试pull，所以我们可以通过一行命令就能启动<code>Redis</code>服务。如果通过第二种方式启动的话，需要提前准备<code>Redis</code>的配置文件</p>
 <p>首先我们准备以下目录，你也可以选择其他目录，到时候修改下命令中的挂载目录位置即可。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/docker/redis</span><br><span class="line">mkdir /opt/docker/mysql/conf</span><br><span class="line">mkdir /opt/docker/mysql/data</span><br></pre></td></tr></table></figure>
-<p>然后去下载一个对应版本的redis.conf，放到下面目录中</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /opt/docker/redis/&#123;conf,data&#125;</span><br></pre></td></tr></table></figure>
+<p>然后去下载一个对应版本的 <code>redis.conf</code> ，放到下面目录中</p>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/docker/redis/conf/redis.conf</span><br></pre></td></tr></table></figure>
 <p>然后需要修改以下几点：</p>
 <ul>
@@ -193,17 +193,19 @@
 <li>如果要设置密码：<code>requirepass your-password</code></li>
 <li>设置数据持久化：<code>appendonly yes</code></li>
 </ul>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启动一个redis服务</span><br><span class="line">docker run  -d -p 6379:6379 --name redis-dev redis:4.0</span><br><span class="line"># 启动redis并挂载外部conf，需自己去官网下载redis.conf</span><br><span class="line">docker run -d -p 6379:6379 -v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis/data:/etc/redis/data --name redis-dev redis:4.0 redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<p>下面提供了两种方式启动 <code>Redis</code></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 启动一个Redis服务</span><br><span class="line">docker run  -d -p 6379:6379 --name redis-dev redis:4.0</span><br><span class="line"></span><br><span class="line"># 启动redis并挂载外部conf，需自己去官网下载redis.conf</span><br><span class="line">docker run -d -p 6379:6379 -v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis/data:/etc/redis/data --name redis-dev redis:4.0 redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
 <p>然后通过<code>docker ps</code>查看处于活跃状态的docker服务</p>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES</span><br><span class="line">7c5ed64050de        redis:4.0           &quot;docker-entrypoint...&quot;   3 minutes ago       Up 3 minutes        0.0.0.0:6379-&gt;6379/tcp              redis-dev</span><br><span class="line">f80f9ed36b71        mysql:5.7           &quot;docker-entrypoint...&quot;   13 days ago         Up 24 minutes       0.0.0.0:3306-&gt;3306/tcp, 33060/tcp   mysql-dev</span><br></pre></td></tr></table></figure>
-<h3 id="其他说明"><a href="#其他说明" class="headerlink" title="其他说明"></a>其他说明</h3><p>一般使用redis会做高可用，设置密码，挂载外部的data以及conf，做数据持久化，以下是对上述命令做一些解释以及补充，</p>
+<p><strong>补充说明</strong>：</p>
+<p>一般使用<code>Redis</code>会做高可用，设置密码，挂载外部的<code>data</code>以及<code>conf</code>，做数据持久化，以下是对上述命令做一些解释以及补充，</p>
 <ul>
 <li><code>-v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf</code>：挂载配置文件</li>
-<li><code>-v /opt/docker/redis/data:/etc/redis/data</code>：映射data目录</li>
+<li><code>-v /opt/docker/redis/data:/etc/redis/data</code>：映射<code>data</code>目录</li>
 <li><code>redis-server /etc/redis/redis.conf</code>：服务使用指定的配置文件</li>
-<li><code>--name mysql-dev</code>  为容器命名</li>
+<li><code>--name mysql-dev</code> ：为容器命名</li>
 <li><code>--privileged=true</code>：赋予容器内的root拥有真正root权限</li>
-<li><code>--requirepass &quot;pwd&quot;</code>：给redis设置密码（如果挂载了外部的配置文件并设置过了，就无需再次设置）</li>
+<li><code>--requirepass &quot;pwd&quot;</code>：给<code>Redis</code>设置密码（如果挂载了外部的配置文件并设置过了，就无需再次设置）</li>
 <li><code>--appendonly yes</code>：开启数据持久化（如果挂载了外部的配置文件并设置过了，就无需再次设置）</li>
 </ul>
 
@@ -368,18 +370,14 @@
         <span class="has-mr-6">1</span>
         <span>准备工作</span>
         </a></li><li>
-        <a class="is-flex" href="#创建容器">
+        <a class="is-flex" href="#创建-MySQL">
         <span class="has-mr-6">2</span>
-        <span>创建容器</span>
+        <span>创建 MySQL</span>
         </a></li><li>
-        <a class="is-flex" href="#使用docker启动redis">
+        <a class="is-flex" href="#创建-Redis">
         <span class="has-mr-6">3</span>
-        <span>使用docker启动redis</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#其他说明">
-        <span class="has-mr-6">3.1</span>
-        <span>其他说明</span>
-        </a></li></ul></li></ul>
+        <span>创建 Redis</span>
+        </a></li></ul>
         </div>
     </div>
 </div>
