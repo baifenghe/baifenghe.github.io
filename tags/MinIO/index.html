@@ -2,14 +2,14 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>标签: Stream - 白风和</title>
+<title>标签: MinIO - 白风和</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="白风和">
-<meta property="og:url" content="https://byference.github.io/tags/Stream/index.html">
+<meta property="og:url" content="https://byference.github.io/tags/MinIO/index.html">
 <meta property="og:site_name" content="白风和">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
@@ -126,7 +126,7 @@
         <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">Stream</a></li>
+            <li class="is-active"><a href="#" aria-current="page">MinIO</a></li>
         </ul>
         </nav>
     </div>
@@ -135,8 +135,8 @@
     <div class="card">
     
     <div class="card-image">
-        <a href="/2019/09/16/stream-in-action-03/" class="image is-7by1">
-            <img class="thumbnail" src="/images/image0001.jpg" alt="Java8 Stream实战（三）">
+        <a href="/2019/10/27/minio-in-action/" class="image is-7by1">
+            <img class="thumbnail" src="/images/minio.png" alt="MinIO 实战">
         </a>
     </div>
     
@@ -144,17 +144,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-09-16T12:12:05.000Z">2019-09-16</time>
+                <time class="level-item has-text-grey" datetime="2019-10-27T11:36:23.000Z">2019-10-27</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                <a class="has-link-grey -link" href="/categories/杂记/">杂记</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 844 个字)
+                    5 分钟 读完 (大约 722 个字)
                 </span>
                 
             </div>
@@ -162,130 +162,18 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/09/16/stream-in-action-03/">Java8 Stream实战（三）</a>
+                <a class="has-link-black-ter" href="/2019/10/27/minio-in-action/">MinIO 实战</a>
             
         </h1>
         <div class="content">
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本想接着上一章 <a href="https://byference.github.io/2019/05/26/stream-in-action-02/">Java8 Stream实战（二）</a>  继续往后开展 <code>Java8 Stream</code> 相关API实践，但是考虑到今天要介绍的内容不仅仅只是针对现有 API ，还有如何对 <code>Stream#reduce</code> 进行相关的拓展，以满足日常开发的需要，于是单独开一篇进行介绍。</p>
+            <h2 id="MinIO-快速入门"><a href="#MinIO-快速入门" class="headerlink" title="MinIO 快速入门"></a>MinIO 快速入门</h2><p><code>MinIO</code> 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。</p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/09/16/stream-in-action-03/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/05/26/stream-in-action-02/" class="image is-7by1">
-            <img class="thumbnail" src="/images/math.jpg" alt="Java8 Stream实战（二）">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-26T07:22:05.000Z">2019-05-26</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 694 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/05/26/stream-in-action-02/">Java8 Stream实战（二）</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>实际工作中，我们面临的数据处理场景异常复杂，往往需要多种API组合使用。对于常见的处理需求，Java8提供了例如 <code>Collectors</code> 来协助我们处理集合，比如我们需要将流收集成一个<code>ArrayList</code> 的时候，我们可以直接使用<code>java.util.stream.Collectors#toList</code>，如下</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List collect = students.stream().collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/05/26/stream-in-action-02/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-08-13T09:24:00.000Z">2018-08-13</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1073 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/08/13/stream-in-action-01/">Java8 Stream实战（一）</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p>参考自《Java 8实战》</p>
-</blockquote>
-<h2 id="什么是stream"><a href="#什么是stream" class="headerlink" title="什么是stream"></a>什么是stream</h2><p>为什么使用Stream？因为它能让我们更高效地处理集合，让我们可以简洁地表达复杂的数据处理查询。此外，Stream可以透明地并行化。我们可以使用Stream API完成以下操作：</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/08/13/stream-in-action-01/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2019/10/27/minio-in-action/#more">阅读更多</a>
                 </div>
             </div>
         </div>

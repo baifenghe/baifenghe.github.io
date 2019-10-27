@@ -2,18 +2,25 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>标签: Stream - 白风和</title>
+<title>MinIO 实战 - 白风和</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="白风和">
-<meta property="og:url" content="https://byference.github.io/tags/Stream/index.html">
+    <meta name="description" content="MinIO 快速入门MinIO 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。">
+<meta name="keywords" content="MinIO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MinIO 实战">
+<meta property="og:url" content="https://byference.github.io/2019/10/27/minio-in-action/index.html">
 <meta property="og:site_name" content="白风和">
+<meta property="og:description" content="MinIO 快速入门MinIO 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/minio/minio/blob/master/docs/screenshots/minio-browser.png?raw=true">
+<meta property="og:updated_time" content="2019-10-27T12:26:03.376Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="白风和">
+<meta name="twitter:title" content="MinIO 实战">
+<meta name="twitter:description" content="MinIO 快速入门MinIO 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。">
+<meta name="twitter:image" content="https://github.com/minio/minio/blob/master/docs/screenshots/minio-browser.png?raw=true">
 
 
 
@@ -83,7 +90,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/favicon.png" alt="白风和" height="28">
+                <img src="/images/favicon.png" alt="MinIO 实战" height="28">
             
             </a>
         </div>
@@ -108,6 +115,10 @@
             <div class="navbar-end">
                 
                 
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
                 
                 <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
@@ -122,39 +133,28 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">Stream</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
     
     <div class="card-image">
-        <a href="/2019/09/16/stream-in-action-03/" class="image is-7by1">
-            <img class="thumbnail" src="/images/image0001.jpg" alt="Java8 Stream实战（三）">
-        </a>
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/minio.png" alt="MinIO 实战">
+        </span>
     </div>
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-09-16T12:12:05.000Z">2019-09-16</time>
+                <time class="level-item has-text-grey" datetime="2019-10-27T11:36:23.000Z">2019-10-27</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
+                <a class="has-link-grey -link" href="/categories/杂记/">杂记</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 844 个字)
+                    5 分钟 读完 (大约 722 个字)
                 </span>
                 
             </div>
@@ -162,22 +162,45 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/09/16/stream-in-action-03/">Java8 Stream实战（三）</a>
+                MinIO 实战
             
         </h1>
         <div class="content">
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本想接着上一章 <a href="https://byference.github.io/2019/05/26/stream-in-action-02/">Java8 Stream实战（二）</a>  继续往后开展 <code>Java8 Stream</code> 相关API实践，但是考虑到今天要介绍的内容不仅仅只是针对现有 API ，还有如何对 <code>Stream#reduce</code> 进行相关的拓展，以满足日常开发的需要，于是单独开一篇进行介绍。</p>
+            <h2 id="MinIO-快速入门"><a href="#MinIO-快速入门" class="headerlink" title="MinIO 快速入门"></a>MinIO 快速入门</h2><p><code>MinIO</code> 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。</p>
+<a id="more"></a>
+<p><code>MinIO</code>是一个非常轻量的服务,可以很简单的和其他应用的结合，类似 <code>NodeJS</code>, <code>Redis</code> 或者 <code>MySQL</code>。</p>
+<h3 id="安装-MinIO"><a href="#安装-MinIO" class="headerlink" title="安装 MinIO"></a>安装 MinIO</h3><p>我们直接使用 <code>Docker</code> 来安装 <code>MinIO</code>  ，这里使用的是稳定版：</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --name minio-dev -e "MINIO_ACCESS_KEY=admin" -e "MINIO_SECRET_KEY=admin" -v /apps/minio/data:/data -v /apps/minio/conf:/root/.minio  minio/minio server /data</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/minio/minio/blob/master/docs/screenshots/minio-browser.png?raw=true" alt="minio"></p>
+<h3 id="安装-MinIO-Client"><a href="#安装-MinIO-Client" class="headerlink" title="安装 MinIO Client"></a>安装 MinIO Client</h3><p><a href="https://docs.min.io/cn/minio-client-complete-guide.htm" target="_blank" rel="noopener">MinIO Client</a>  (mc) 为ls，cat，cp，mirror，diff，find等UNIX命令提供了一种替代方案。它支持文件系统和兼容Amazon S3的云存储服务（AWS Signature v2和v4）。</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ls       列出文件和文件夹。</span><br><span class="line">mb       创建一个存储桶或一个文件夹。</span><br><span class="line">cat      显示文件和对象内容。</span><br><span class="line">pipe     将一个STDIN重定向到一个对象或者文件或者STDOUT。</span><br><span class="line">share    生成用于共享的URL。</span><br><span class="line">cp       拷贝文件和对象。</span><br><span class="line">mirror   给存储桶和文件夹做镜像。</span><br><span class="line">find     基于参数查找文件。</span><br><span class="line">diff     对两个文件夹或者存储桶比较差异。</span><br><span class="line">rm       删除文件和对象。</span><br><span class="line">events   管理对象通知。</span><br><span class="line">watch    监听文件和对象的事件。</span><br><span class="line">policy   管理访问策略。</span><br><span class="line">session  为cp命令管理保存的会话。</span><br><span class="line">config   管理mc配置文件。</span><br><span class="line">update   检查软件更新。</span><br><span class="line">version  输出版本信息。</span><br></pre></td></tr></table></figure>
+<p>首先需下载 <code>MinIO Client</code> ，这里同样使用<code>Docker</code> 来进行操作：</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull minio/mc</span><br><span class="line">docker run minio/mc ls play</span><br><span class="line">docker run -it --entrypoint=/bin/sh minio/mc</span><br></pre></td></tr></table></figure>
+<h4 id="添加云存储服务"><a href="#添加云存储服务" class="headerlink" title="添加云存储服务"></a>添加云存储服务</h4><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mc config host add &lt;ALIAS&gt; &lt;YOUR-S3-ENDPOINT&gt; &lt;YOUR-ACCESS-KEY&gt; &lt;YOUR-SECRET-KEY&gt; &lt;API-SIGNATURE&gt;</span><br></pre></td></tr></table></figure>
+<p>别名就是给你的云存储服务起了一个短点的外号。S3 endpoint,access key和secret key是你的云存储服务提供的。API签名是可选参数，默认情况下，它被设置为”S3v4”。</p>
+<h4 id="示例-MinIO云存储"><a href="#示例-MinIO云存储" class="headerlink" title="示例-MinIO云存储"></a>示例-MinIO云存储</h4><figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mc config host add minio http://127.0.0.1:9000 admin admin S3v4</span><br></pre></td></tr></table></figure>
+<p>首先我们创建一个 <code>bucket</code></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mc mb minio/public # 创建桶</span><br></pre></td></tr></table></figure>
+<p>然后将其桶策略设置为开放管理，以便于我们通过url 直接访问资源：</p>
+<figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mc policy set public minio/public</span><br></pre></td></tr></table></figure>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>我们可以使用浏览器访问 <a href="http://127.0.0.1:9000/" target="_blank" rel="noopener">http://127.0.0.1:9000</a> 进行登陆操作，进入 <code>public</code> 目录下上传一张图片 <code>test.jpg</code> ，访问  <a href="http://127.0.0.1:9000/public/test.jpg" target="_blank" rel="noopener">http://127.0.0.1:9000/public/test.jpg</a>  ，图片能正常显示。</p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/09/16/stream-in-action-03/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/MinIO/">MinIO</a>
                 </div>
             </div>
         </div>
         
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
         
     </div>
 </div>
@@ -186,119 +209,19 @@
 
 
 
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/05/26/stream-in-action-02/" class="image is-7by1">
-            <img class="thumbnail" src="/images/math.jpg" alt="Java8 Stream实战（二）">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-26T07:22:05.000Z">2019-05-26</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 694 个字)
-                </span>
-                
-            </div>
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/19/map-struct-in-action/">
+                <span class="level-item">MapStruct 实战</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/05/26/stream-in-action-02/">Java8 Stream实战（二）</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>实际工作中，我们面临的数据处理场景异常复杂，往往需要多种API组合使用。对于常见的处理需求，Java8提供了例如 <code>Collectors</code> 来协助我们处理集合，比如我们需要将流收集成一个<code>ArrayList</code> 的时候，我们可以直接使用<code>java.util.stream.Collectors#toList</code>，如下</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List collect = students.stream().collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/05/26/stream-in-action-02/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
         
     </div>
 </div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-08-13T09:24:00.000Z">2018-08-13</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Java/">Java</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1073 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/08/13/stream-in-action-01/">Java8 Stream实战（一）</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p>参考自《Java 8实战》</p>
-</blockquote>
-<h2 id="什么是stream"><a href="#什么是stream" class="headerlink" title="什么是stream"></a>什么是stream</h2><p>为什么使用Stream？因为它能让我们更高效地处理集合，让我们可以简洁地表达复杂的数据处理查询。此外，Stream可以透明地并行化。我们可以使用Stream API完成以下操作：</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2018/08/13/stream-in-action-01/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
 
 
 </div>
@@ -405,6 +328,41 @@
 </div>
     
         
+<div class="card widget" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#MinIO-快速入门">
+        <span class="has-mr-6">1</span>
+        <span>MinIO 快速入门</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#安装-MinIO">
+        <span class="has-mr-6">1.1</span>
+        <span>安装 MinIO</span>
+        </a></li><li>
+        <a class="is-flex" href="#安装-MinIO-Client">
+        <span class="has-mr-6">1.2</span>
+        <span>安装 MinIO Client</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#添加云存储服务">
+        <span class="has-mr-6">1.2.1</span>
+        <span>添加云存储服务</span>
+        </a></li><li>
+        <a class="is-flex" href="#示例-MinIO云存储">
+        <span class="has-mr-6">1.2.2</span>
+        <span>示例-MinIO云存储</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#测试">
+        <span class="has-mr-6">1.3</span>
+        <span>测试</span>
+        </a></li></ul></li></ul>
+        </div>
+    </div>
+</div>
+
     
         
 
@@ -1323,7 +1281,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/favicon.png" alt="白风和" height="28">
+                    <img src="/images/favicon.png" alt="MinIO 实战" height="28">
                 
                 </a>
                 <p class="is-size-7">
