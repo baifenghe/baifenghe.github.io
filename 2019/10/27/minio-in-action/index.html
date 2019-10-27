@@ -15,13 +15,13 @@
 <meta property="og:site_name" content="白风和">
 <meta property="og:description" content="MinIO 快速入门MinIO 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://github.com/minio/minio/blob/master/docs/screenshots/minio-browser.png?raw=true">
+<meta property="og:image" content="https://byference.github.io/images/blog/2019/minio_admin.png">
 <meta property="og:image" content="https://byference.github.io/images/blog/2019/minio_postman_test.png">
-<meta property="og:updated_time" content="2019-10-27T13:25:24.634Z">
+<meta property="og:updated_time" content="2019-10-27T13:29:18.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MinIO 实战">
 <meta name="twitter:description" content="MinIO 快速入门MinIO 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。">
-<meta name="twitter:image" content="https://github.com/minio/minio/blob/master/docs/screenshots/minio-browser.png?raw=true">
+<meta name="twitter:image" content="https://byference.github.io/images/blog/2019/minio_admin.png">
 
 
 
@@ -155,7 +155,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 850 个字)
+                    6 分钟 读完 (大约 841 个字)
                 </span>
                 
             </div>
@@ -172,7 +172,7 @@
 <p><code>MinIO</code>是一个非常轻量的服务,可以很简单的和其他应用的结合，类似 <code>NodeJS</code>, <code>Redis</code> 或者 <code>MySQL</code>。</p>
 <h3 id="安装-MinIO"><a href="#安装-MinIO" class="headerlink" title="安装 MinIO"></a>安装 MinIO</h3><p>我们直接使用 <code>Docker</code> 来安装 <code>MinIO</code>  ，这里使用的是稳定版：</p>
 <figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 9000:9000 --name minio-dev -e "MINIO_ACCESS_KEY=admin" -e "MINIO_SECRET_KEY=admin" -v /apps/minio/data:/data -v /apps/minio/conf:/root/.minio  minio/minio server /data</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/minio/minio/blob/master/docs/screenshots/minio-browser.png?raw=true" alt="minio"></p>
+<p><img src="/images/blog/2019/minio_admin.png" alt="image"></p>
 <h3 id="安装-MinIO-Client"><a href="#安装-MinIO-Client" class="headerlink" title="安装 MinIO Client"></a>安装 MinIO Client</h3><p><a href="https://docs.min.io/cn/minio-client-complete-guide.htm" target="_blank" rel="noopener">MinIO Client</a>  (mc) 为ls，cat，cp，mirror，diff，find等UNIX命令提供了一种替代方案。它支持文件系统和兼容Amazon S3的云存储服务（AWS Signature v2和v4）。</p>
 <figure class="highlight shell hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ls       列出文件和文件夹。</span><br><span class="line">mb       创建一个存储桶或一个文件夹。</span><br><span class="line">cat      显示文件和对象内容。</span><br><span class="line">pipe     将一个STDIN重定向到一个对象或者文件或者STDOUT。</span><br><span class="line">share    生成用于共享的URL。</span><br><span class="line">cp       拷贝文件和对象。</span><br><span class="line">mirror   给存储桶和文件夹做镜像。</span><br><span class="line">find     基于参数查找文件。</span><br><span class="line">diff     对两个文件夹或者存储桶比较差异。</span><br><span class="line">rm       删除文件和对象。</span><br><span class="line">events   管理对象通知。</span><br><span class="line">watch    监听文件和对象的事件。</span><br><span class="line">policy   管理访问策略。</span><br><span class="line">session  为cp命令管理保存的会话。</span><br><span class="line">config   管理mc配置文件。</span><br><span class="line">update   检查软件更新。</span><br><span class="line">version  输出版本信息。</span><br></pre></td></tr></table></figure>
 <p>首先需下载 <code>MinIO Client</code> ，这里同样使用<code>Docker</code> 来进行操作：</p>
